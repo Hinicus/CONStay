@@ -16,320 +16,15 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
       rel="stylesheet" />
     <title>CONStay</title>
-    <style>
-      @layer base {
-        html,
-        body {
-          margin: 0;
-          padding: 0;
-        }
-        body {
-          overscroll-behavior: none;
-        }
-        main > :first-child {
-          margin-top: 0 !important;
-        }
-        main > :last-child {
-          margin-bottom: 0 !important;
-        }
-      }
-      ::-webkit-scrollbar {
-        display: none;
-      }
-    </style>
+    <!-- Global CSS config -->
+    <link href="./global.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "on-error": "#ffffff",
-              "tertiary-fixed-dim": "#95ccff",
-              "primary-fixed-dim": "#b3c7f2",
-              tertiary: "#001627",
-              "surface-dim": "#e0dac9",
-              "secondary-fixed-dim": "#a6c8ff",
-              "on-tertiary": "#ffffff",
-              "inverse-surface": "#333025",
-              background: "#fff9ec",
-              "outline-variant": "#c4c6cf",
-              "on-error-container": "#93000a",
-              surface: "#fff9ec",
-              "surface-variant": "#e9e2d2",
-              "on-primary": "#ffffff",
-              "on-background": "#1e1c12",
-              "on-secondary-container": "#00407a",
-              outline: "#75777f",
-              "on-surface-variant": "#44474e",
-              "primary-fixed": "#d7e2ff",
-              "on-tertiary-fixed-variant": "#004a75",
-              error: "#ba1a1a",
-              "on-primary-fixed": "#021b3d",
-              "on-surface": "#1e1c12",
-              "on-secondary-fixed-variant": "#004787",
-              "surface-container": "#f4eddd",
-              "inverse-primary": "#b3c7f2",
-              "on-tertiary-fixed": "#001d32",
-              "on-secondary-fixed": "#001c3b",
-              "surface-container-high": "#eee8d7",
-              "surface-tint": "#4b5e85",
-              "on-primary-container": "#7c90b9",
-              secondary: "#185faa",
-              "secondary-container": "#75adfe",
-              "secondary-fixed": "#d5e3ff",
-              "inverse-on-surface": "#f7f0df",
-              "surface-container-low": "#faf3e2",
-              "on-secondary": "#ffffff",
-              "surface-container-highest": "#e9e2d2",
-              "surface-container-lowest": "#ffffff",
-              "tertiary-fixed": "#cde5ff",
-              "tertiary-container": "#002b46",
-              "on-tertiary-container": "#4f95cf",
-              "on-primary-fixed-variant": "#33476b",
-              "primary-container": "#12284b",
-              "error-container": "#ffdad6",
-              primary: "#001331",
-              "surface-bright": "#fff9ec",
-            },
-            borderRadius: {
-              DEFAULT: "1rem",
-              lg: "2rem",
-              xl: "3rem",
-              full: "9999px",
-            },
-            spacing: {
-              "margin-mobile": "1.25rem",
-              "space-md": "1rem",
-              "space-lg": "1.5rem",
-              margin: "3rem",
-              "space-xl": "2rem",
-              gutter: "1.5rem",
-              "space-3xl": "4rem",
-              "gutter-mobile": "1rem",
-              "space-sm": "0.75rem",
-              "margin-tablet": "2rem",
-              "space-2xl": "3xl",
-              "space-2xl": "3rem",
-              "space-xxs": "0.25rem",
-              "space-xs": "0.5rem",
-            },
-            fontFamily: {
-              "headline-md": ["Newsreader"],
-              "body-md": ["Plus Jakarta Sans"],
-              "title-sm": ["Plus Jakarta Sans"],
-              "body-sm": ["Plus Jakarta Sans"],
-              "label-md": ["Plus Jakarta Sans"],
-              "headline-lg-mobile": ["Newsreader"],
-              "title-md": ["Plus Jakarta Sans"],
-              "label-sm": ["Plus Jakarta Sans"],
-              "display-hero-mobile": ["Newsreader"],
-              "headline-sm": ["Newsreader"],
-              "headline-lg": ["Newsreader"],
-              "display-hero": ["Newsreader"],
-              "body-lg": ["Plus Jakarta Sans"],
-              caption: ["Plus Jakarta Sans"],
-            },
-            fontSize: {
-              "headline-md": [
-                "24px",
-                { lineHeight: "32px", fontWeight: "500" },
-              ],
-              "body-md": ["15px", { lineHeight: "24px", fontWeight: "400" }],
-              "title-sm": ["16px", { lineHeight: "24px", fontWeight: "600" }],
-              "body-sm": ["13px", { lineHeight: "20px", fontWeight: "400" }],
-              "label-md": [
-                "14px",
-                {
-                  lineHeight: "20px",
-                  letterSpacing: "0.01em",
-                  fontWeight: "600",
-                },
-              ],
-              "headline-lg-mobile": [
-                "26px",
-                { lineHeight: "34px", fontWeight: "600" },
-              ],
-              "title-md": ["18px", { lineHeight: "26px", fontWeight: "600" }],
-              "label-sm": [
-                "12px",
-                {
-                  lineHeight: "16px",
-                  letterSpacing: "0.02em",
-                  fontWeight: "600",
-                },
-              ],
-              "display-hero-mobile": [
-                "34px",
-                {
-                  lineHeight: "42px",
-                  letterSpacing: "-0.01em",
-                  fontWeight: "600",
-                },
-              ],
-              "headline-sm": [
-                "20px",
-                { lineHeight: "28px", fontWeight: "500" },
-              ],
-              "headline-lg": [
-                "32px",
-                {
-                  lineHeight: "40px",
-                  letterSpacing: "-0.015em",
-                  fontWeight: "600",
-                },
-              ],
-              "display-hero": [
-                "48px",
-                {
-                  lineHeight: "56px",
-                  letterSpacing: "-0.02em",
-                  fontWeight: "600",
-                },
-              ],
-              "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
-              caption: ["11px", { lineHeight: "16px", fontWeight: "500" }],
-            },
-          },
-        },
-      };
-    </script>
+    <script src="./tailwind-config.js"></script>
   </head>
   <body class="bg-surface font-body-md text-on-surface antialiased">
-    <header
-      class="fixed top-0 w-full z-50 bg-primary-container text-surface shadow-[0_4px_20px_rgba(0,19,49,0.25)]">
-      <div
-        class="h-20 max-w-7xl mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin flex items-center justify-between gap-space-md">
-        <div class="flex items-center gap-space-sm flex-shrink-0">
-          <img
-            alt="CONStay Logo"
-            class="h-8 w-auto object-contain"
-            src="https://lh3.googleusercontent.com/aida/AEtjO1WQyPvckZWOltbQ5o6cmHeIY-O_54yvsUcj-hXB0Rnu6iSNaTGo10gZOoMiOaD4HGcXkSFJUMt4Q1AbdVmzdJa48aKp67JCxmc4r40uVNOccMqiIXbwXsJphx2iodD_1iy8byRqwXMr-595jePSxRFeKEYfJdQUO2oigHz9qFRZ17JQQ7EPzCLBAQxTajEkgEkpSEnpzIntl_xMPl05EEx8_t8otL9mdoaWEom6Bwf_jeSqLszUR_aeGZY" />
-        </div>
-        <nav
-          class="hidden lg:flex items-center gap-space-lg h-full"
-          data-active-classes="text-tertiary-fixed-dim border-b-2 border-tertiary-fixed-dim font-bold">
-          <a
-            class="text-tertiary-fixed-dim border-b border-tertiary-fixed-dim font-bold flex items-center h-full px-space-xs font-label-md text-label-md"
-            data-path="home-dashboard"
-            href="#"
-            >Home</a
-          ><a
-            class="text-surface-variant hover:text-surface transition-colors flex items-center h-full px-space-xs font-label-md text-label-md"
-            data-path="our-story"
-            href="#"
-            >Our Story</a
-          ><a
-            class="text-surface-variant hover:text-surface transition-colors flex items-center h-full px-space-xs font-label-md text-label-md"
-            data-path="con-community"
-            href="#"
-            >CON Community</a
-          ><a
-            class="text-surface-variant hover:text-surface transition-colors flex items-center h-full px-space-xs font-label-md text-label-md"
-            data-path="traditions-culture"
-            href="#"
-            >Traditions &amp; Culture</a
-          ><a
-            class="text-surface-variant hover:text-surface transition-colors flex items-center h-full px-space-xs font-label-md text-label-md"
-            data-path="what-we-carry"
-            href="#"
-            >What We Carry</a
-          ><a
-            class="text-surface-variant hover:text-surface transition-colors flex items-center h-full px-space-xs font-label-md text-label-md"
-            data-path="resources"
-            href="#"
-            >Resources</a
-          ><a
-            class="text-surface-variant hover:text-surface transition-colors flex items-center h-full px-space-xs font-label-md text-label-md"
-            data-path="about"
-            href="#"
-            >About</a
-          >
-        </nav>
-        <button
-          id="mobile-menu-toggle"
-          aria-label="Toggle mobile menu"
-          aria-expanded="false"
-          class="lg:hidden flex items-center justify-center w-10 h-10 rounded-full bg-primary hover:bg-secondary text-surface transition-colors focus:outline-none"
-          type="button">
-          <span
-            id="mobile-menu-icon"
-            class="material-symbols-outlined text-[24px]"
-            >menu</span
-          >
-        </button>
-      </div>
-      <div
-        id="mobile-nav-menu"
-        class="hidden lg:hidden border-t border-on-primary-fixed-variant/30 bg-primary-container px-margin-mobile md:px-margin-tablet py-space-lg shadow-xl">
-        <nav class="flex flex-col gap-space-xs">
-          <a
-            class="bg-primary text-tertiary-fixed-dim font-bold transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
-            data-path="home-dashboard"
-            href="#"
-            ><span class="">Home</span
-            ><span
-              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
-              >chevron_right</span
-            ></a
-          ><a
-            class="text-surface-variant hover:text-surface hover:bg-primary transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
-            data-path="our-story"
-            href="#"
-            ><span class="">Our Story</span
-            ><span
-              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
-              >chevron_right</span
-            ></a
-          ><a
-            class="text-surface-variant hover:text-surface hover:bg-primary transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
-            data-path="con-community"
-            href="#"
-            ><span class="">CON Community</span
-            ><span
-              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
-              >chevron_right</span
-            ></a
-          ><a
-            class="text-surface-variant hover:text-surface hover:bg-primary transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
-            data-path="traditions-culture"
-            href="#"
-            ><span class="">Traditions &amp; Culture</span
-            ><span
-              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
-              >chevron_right</span
-            ></a
-          ><a
-            class="text-surface-variant hover:text-surface hover:bg-primary transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
-            data-path="what-we-carry"
-            href="#"
-            ><span class="">What We Carry</span
-            ><span
-              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
-              >chevron_right</span
-            ></a
-          ><a
-            class="text-surface-variant hover:text-surface hover:bg-primary transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
-            data-path="resources"
-            href="#"
-            ><span class="">Resources</span
-            ><span
-              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
-              >chevron_right</span
-            ></a
-          ><a
-            class="text-surface-variant hover:text-surface hover:bg-primary transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
-            data-path="about"
-            href="#"
-            ><span class="">About</span
-            ><span
-              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
-              >chevron_right</span
-            ></a
-          >
-        </nav>
-      </div>
-    </header>
+    <!-- Header -->
+    <div id="header-placeholder" class="sticky top-0 w-full z-50"></div>
+
     <main class="w-full pt-20 bg-surface min-h-[calc(100vh-80px)]">
       <div class="flex flex-col w-full">
         <!-- Top Ambient Banner & Welcome Stage -->
@@ -767,6 +462,7 @@
               >
             </a>
           </div>
+
           <!-- Two-Column News Grid -->
           <div
             class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-stretch">
@@ -824,181 +520,49 @@
           </div>
         </section>
       </div>
-      <script>
-        // Simple interactive category card hover enhancement and path handling
-        document.querySelectorAll("[data-path]").forEach((link) => {
-          link.addEventListener("click", (e) => {
-            // Retains accessibility while previewing navigation
-            const path = link.getAttribute("data-path");
-            console.log("Navigating to portal section:", path);
-          });
-        });
-      </script>
-      <script>
-        (function () {
-          const toggleBtn = document.getElementById("mobile-menu-toggle");
-          const menu = document.getElementById("mobile-nav-menu");
-          const icon = document.getElementById("mobile-menu-icon");
-          if (toggleBtn && menu && icon) {
-            toggleBtn.addEventListener("click", function () {
-              const isHidden = menu.classList.contains("hidden");
-              if (isHidden) {
-                menu.classList.remove("hidden");
-                icon.textContent = "close";
-                toggleBtn.setAttribute("aria-expanded", "true");
-              } else {
-                menu.classList.add("hidden");
-                icon.textContent = "menu";
-                toggleBtn.setAttribute("aria-expanded", "false");
-              }
-            });
-            menu.querySelectorAll("a").forEach(function (link) {
-              link.addEventListener("click", function () {
-                menu.classList.add("hidden");
-                icon.textContent = "menu";
-                toggleBtn.setAttribute("aria-expanded", "false");
-              });
-            });
-          }
-        })();
-      </script>
     </main>
-    <footer class="w-full bg-primary-container text-surface mt-space-3xl">
-      <div
-        class="max-w-7xl mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin pt-space-3xl pb-space-2xl">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-space-3xl">
-          <div
-            class="bg-primary p-space-xl rounded-lg flex flex-col justify-between shadow-[0_2px_8px_-2px_rgba(18,40,75,0.1)]">
-            <div class="mb-space-lg">
-              <div
-                class="flex items-center gap-space-xs text-tertiary-fixed-dim mb-space-xs">
-                <span class="material-symbols-outlined text-[20px]"
-                  >newspaper</span
-                ><span
-                  class="font-label-sm text-label-sm uppercase tracking-wider"
-                  >Dispatches &amp; Media</span
-                >
-              </div>
-              <h4
-                class="font-headline-sm text-headline-sm text-surface mb-space-xs">
-                Latest News
-              </h4>
-              <p class="font-body-sm text-body-sm text-surface-variant">
-                Frontline updates, research breakthroughs, clinical honors, and
-                community milestones from across the college.
-              </p>
-            </div>
-            <a
-              class="inline-flex items-center justify-between w-full px-space-lg py-space-sm rounded-full bg-secondary text-on-secondary font-label-md text-label-md hover:bg-secondary-container hover:text-on-secondary-container transition-all group"
-              data-path="resources"
-              href="#"
-              ><span class="">Explore News Archive</span
-              ><span
-                class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
-                >arrow_forward</span
-              ></a
-            >
-          </div>
-          <div
-            class="bg-primary p-space-xl rounded-lg flex flex-col justify-between shadow-[0_2px_8px_-2px_rgba(18,40,75,0.1)]">
-            <div class="mb-space-lg">
-              <div
-                class="flex items-center gap-space-xs text-tertiary-fixed-dim mb-space-xs">
-                <span class="material-symbols-outlined text-[20px]"
-                  >local_hospital</span
-                ><span
-                  class="font-label-sm text-label-sm uppercase tracking-wider"
-                  >Our Identity</span
-                >
-              </div>
-              <h4
-                class="font-headline-sm text-headline-sm text-surface mb-space-xs">
-                About the College
-              </h4>
-              <p class="font-body-sm text-body-sm text-surface-variant">
-                Founded on ethical care, evidence-based inquiry, and collegiate
-                clinical leadership beyond classroom boundaries.
-              </p>
-            </div>
-            <a
-              class="inline-flex items-center justify-between w-full px-space-lg py-space-sm rounded-full bg-secondary text-on-secondary font-label-md text-label-md hover:bg-secondary-container hover:text-on-secondary-container transition-all group"
-              data-path="about"
-              href="#"
-              ><span class="">Discover Mission</span
-              ><span
-                class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
-                >arrow_forward</span
-              ></a
-            >
-          </div>
-          <div
-            class="bg-primary p-space-xl rounded-lg flex flex-col justify-between shadow-[0_2px_8px_-2px_rgba(18,40,75,0.1)]">
-            <div class="mb-space-lg">
-              <div
-                class="flex items-center gap-space-xs text-tertiary-fixed-dim mb-space-xs">
-                <span class="material-symbols-outlined text-[20px]"
-                  >support_agent</span
-                ><span
-                  class="font-label-sm text-label-sm uppercase tracking-wider"
-                  >Liaison &amp; Preceptors</span
-                >
-              </div>
-              <h4
-                class="font-headline-sm text-headline-sm text-surface mb-space-xs">
-                Connect &amp; Inquire
-              </h4>
-              <p class="font-body-sm text-body-sm text-surface-variant">
-                Reach out to faculty offices, clinical coordinators, student
-                council executives, and alumni relations.
-              </p>
-            </div>
-            <a
-              class="inline-flex items-center justify-between w-full px-space-lg py-space-sm rounded-full bg-secondary text-on-secondary font-label-md text-label-md hover:bg-secondary-container hover:text-on-secondary-container transition-all group"
-              data-path="about"
-              href="#"
-              ><span class="">Get In Touch</span
-              ><span
-                class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
-                >arrow_forward</span
-              ></a
-            >
-          </div>
-        </div>
-        <div
-          class="pt-space-xl border-t border-on-primary-fixed-variant/30 flex flex-col sm:flex-row items-center justify-between gap-space-md">
-          <div
-            class="flex flex-col sm:flex-row items-center gap-space-xs sm:gap-space-sm text-center sm:text-left">
-            <span class="font-label-sm text-label-sm text-surface-variant"
-              >© 2025 College of Nursing. CONStay: Beyond the Walls. All rights
-              reserved.</span
-            >
-          </div>
-          <div class="flex items-center gap-space-md text-surface-variant">
-            <a
-              aria-label="Community Portal"
-              class="w-9 h-9 rounded-full bg-primary flex items-center justify-center hover:text-tertiary-fixed-dim hover:bg-surface-container-highest/20 transition-all"
-              href="#"
-              ><span class="material-symbols-outlined text-[18px]"
-                >public</span
-              ></a
-            ><a
-              aria-label="Global Network"
-              class="w-9 h-9 rounded-full bg-primary flex items-center justify-center hover:text-tertiary-fixed-dim hover:bg-surface-container-highest/20 transition-all"
-              href="#"
-              ><span class="material-symbols-outlined text-[18px]"
-                >language</span
-              ></a
-            ><a
-              aria-label="College Directory"
-              class="w-9 h-9 rounded-full bg-primary flex items-center justify-center hover:text-tertiary-fixed-dim hover:bg-surface-container-highest/20 transition-all"
-              href="#"
-              ><span class="material-symbols-outlined text-[18px]"
-                >share</span
-              ></a
-            >
-          </div>
-        </div>
-      </div>
-    </footer>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+      // Simple interactive category card hover enhancement and path handling
+      document.querySelectorAll("[data-path]").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          // Retains accessibility while previewing navigation
+          const path = link.getAttribute("data-path");
+          console.log("Navigating to portal section:", path);
+        });
+      });
+    </script>
+    <script>
+      (function () {
+        const toggleBtn = document.getElementById("mobile-menu-toggle");
+        const menu = document.getElementById("mobile-nav-menu");
+        const icon = document.getElementById("mobile-menu-icon");
+        if (toggleBtn && menu && icon) {
+          toggleBtn.addEventListener("click", function () {
+            const isHidden = menu.classList.contains("hidden");
+            if (isHidden) {
+              menu.classList.remove("hidden");
+              icon.textContent = "close";
+              toggleBtn.setAttribute("aria-expanded", "true");
+            } else {
+              menu.classList.add("hidden");
+              icon.textContent = "menu";
+              toggleBtn.setAttribute("aria-expanded", "false");
+            }
+          });
+          menu.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", function () {
+              menu.classList.add("hidden");
+              icon.textContent = "menu";
+              toggleBtn.setAttribute("aria-expanded", "false");
+            });
+          });
+        }
+      })();
+    </script>
+    <script src="index.js"></script>
+    <script src="components.js"></script>
   </body>
 </html>

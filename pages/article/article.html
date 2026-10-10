@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" style="">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title> </title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Newsreader (Serif) & Inter / Plus Jakarta Sans (Sans-serif) -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet" />
+    <!-- Global CSS config -->
+    <link href="./global.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../tailwind-config.js"></script>
+
+    <style>
+      body {
+        background-color: #fff9ec;
+        color: #12284b;
+        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+      }
+      .serif-heading {
+        font-family: "Newsreader", Georgia, serif;
+      }
+      .prose p {
+        margin-bottom: 1.5rem;
+        line-height: 1.85;
+        font-size: 1.125rem;
+        color: #2c3e50;
+      }
+      .prose h2 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: #12284b;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        letter-spacing: -0.01em;
+      }
+      .prose h3 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.45rem;
+        font-weight: 600;
+        color: #12284b;
+        margin-top: 2rem;
+        margin-bottom: 0.75rem;
+      }
+      .prose blockquote {
+        border-left: 4px solid #0055a0;
+        padding-left: 1.5rem;
+        margin: 2rem 0;
+        font-style: italic;
+        color: #12284b;
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.35rem;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen flex flex-col antialiased selection:bg-clear-skies selection:text-deep-ocean">
+    <!-- TOP NAVIGATION BAR (Matching previous designs exactly) -->
+    <div id="header-placeholder" class="sticky top-0 w-full z-50"></div>
+
+    <!-- UNIFIED HEADER BANNER (Deep Ocean Gradient style matching CON Community & other pages) -->
+    <section
+      class="relative bg-gradient-to-b from-[#1e3a6a] via-[#12284b] to-[#0d1b33] text-white pt-12 pb-16 px-4 sm:px-6 lg:px-8 border-b border-black/10 overflow-hidden">
+      <!-- Ambient background radial glow -->
+      <div class="absolute inset-0 pointer-events-none opacity-20">
+        <div
+          class="absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#8cc1e9] blur-[120px] rounded-full"></div>
+      </div>
+      <div class="relative max-w-4xl mx-auto text-center">
+        <!-- Centered Emblem Icon in frosted glass ring -->
+        <div
+          class="mx-auto w-12 h-12 rounded-full bg-white/10 ring-1 ring-white/20 flex items-center justify-center mb-4 shadow-lg backdrop-blur-sm">
+          <span class="material-symbols-outlined text-clear-skies text-2xl"
+            >newspaper</span
+          >
+        </div>
+        <!-- Eyebrow Tag -->
+        <div
+          class="flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-clear-skies mb-3"></div>
+        <!-- Breadcrumbs -->
+
+        <!-- Headline -->
+        <h1
+          id="article-title"
+          class="serif-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-[1.15] mb-5">
+          Loading...
+        </h1>
+        <!-- Subtitle -->
+
+        <!-- Article Meta Pill Bar -->
+        <div
+          class="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 bg-white/10 ring-1 ring-white/15 rounded-full px-5 py-2.5 text-xs text-slate-200 backdrop-blur-md">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-clear-skies text-sm"
+              >person</span
+            >
+            <span id="article-author">... </span>
+          </div>
+          <span class="hidden sm:inline text-white/30">•</span>
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-clear-skies text-sm"
+              >calendar_today</span
+            >
+            <span id="article-date" class="">...</span>
+          </div>
+
+          <div class="flex items-center gap-1.5"></div>
+        </div>
+      </div>
+    </section>
+    <!-- MAIN ARTICLE CONTAINER WITH SIDEBAR (Layout consistent with wireframe & design system) -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14 flex-1">
+      <div class="grid grid-cols-1 gap-8 xl:gap-12 items-start">
+        <!-- LEFT SIDEBAR: Table of Contents, Share Tools, & Quick Reference (Desktop & responsive) -->
+
+        <!-- CENTER / MAIN CONTENT: Article Body -->
+        <article
+          class="bg-white rounded-3xl p-6 sm:p-10 lg:p-12 border border-[#e0dac9] shadow-sm order-1 lg:order-2 w-full">
+          <!-- Lead Featured Image Banner -->
+          <figure
+            class="mb-10 rounded-2xl overflow-hidden border border-[#e0dac9] shadow-sm bg-slate-900 relative">
+            <div class="aspect-video sm:aspect-[21/9] w-full relative">
+              <img
+                id="article-image"
+                alt="Article image"
+                class="w-full h-full object-cover..."
+                src="..." />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <!-- In-image Badge -->
+              <div
+                class="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-10">
+                <span
+                  id="image-credit"
+                  class="hidden text-[11px] text-slate-300 bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/10">
+                </span>
+              </div>
+            </div>
+            <figcaption
+              id="caption-container"
+              class="p-3 text-xs text-slate-500 bg-surface-container-low border-t border-[#e0dac9] flex items-center justify-between">
+              <span id="image-caption"></span>
+            </figcaption>
+          </figure>
+          <!-- Article Lead Paragraph -->
+          <div id="article-content" class="prose max-w-none">
+            <!-- JS will inject paragraphs here -->
+          </div>
+        </article>
+      </div>
+      <!-- OTHER NEWS -->
+      <section class="mt-16 pt-12 border-t border-[#e0dac9]"></section>
+    </main>
+    <!-- FOOTER (Matching previous designs) -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Vanilla JS for Mobile Hamburger Menu Toggle -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuBtn = document.getElementById("mobile-menu-btn");
+        const menuDrawer = document.getElementById("mobile-menu-drawer");
+        const menuIcon = document.getElementById("menu-icon");
+
+        if (menuBtn && menuDrawer) {
+          menuBtn.addEventListener("click", function () {
+            const isExpanded = menuBtn.getAttribute("aria-expanded") === "true";
+            menuBtn.setAttribute("aria-expanded", !isExpanded);
+
+            if (isExpanded) {
+              menuDrawer.classList.add("hidden");
+              menuIcon.textContent = "menu";
+            } else {
+              menuDrawer.classList.remove("hidden");
+              menuIcon.textContent = "close";
+            }
+          });
+        }
+      });
+    </script>
+    <script src="article.js"></script>
+    <script src="../../components.js"></script>
+  </body>
+</html>
