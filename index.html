@@ -1,0 +1,1004 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_standard" name="shell-type" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet" />
+    <title>CONStay</title>
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "tertiary-fixed-dim": "#95ccff",
+              "primary-fixed-dim": "#b3c7f2",
+              tertiary: "#001627",
+              "surface-dim": "#e0dac9",
+              "secondary-fixed-dim": "#a6c8ff",
+              "on-tertiary": "#ffffff",
+              "inverse-surface": "#333025",
+              background: "#fff9ec",
+              "outline-variant": "#c4c6cf",
+              "on-error-container": "#93000a",
+              surface: "#fff9ec",
+              "surface-variant": "#e9e2d2",
+              "on-primary": "#ffffff",
+              "on-background": "#1e1c12",
+              "on-secondary-container": "#00407a",
+              outline: "#75777f",
+              "on-surface-variant": "#44474e",
+              "primary-fixed": "#d7e2ff",
+              "on-tertiary-fixed-variant": "#004a75",
+              error: "#ba1a1a",
+              "on-primary-fixed": "#021b3d",
+              "on-surface": "#1e1c12",
+              "on-secondary-fixed-variant": "#004787",
+              "surface-container": "#f4eddd",
+              "inverse-primary": "#b3c7f2",
+              "on-tertiary-fixed": "#001d32",
+              "on-secondary-fixed": "#001c3b",
+              "surface-container-high": "#eee8d7",
+              "surface-tint": "#4b5e85",
+              "on-primary-container": "#7c90b9",
+              secondary: "#185faa",
+              "secondary-container": "#75adfe",
+              "secondary-fixed": "#d5e3ff",
+              "inverse-on-surface": "#f7f0df",
+              "surface-container-low": "#faf3e2",
+              "on-secondary": "#ffffff",
+              "surface-container-highest": "#e9e2d2",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-fixed": "#cde5ff",
+              "tertiary-container": "#002b46",
+              "on-tertiary-container": "#4f95cf",
+              "on-primary-fixed-variant": "#33476b",
+              "primary-container": "#12284b",
+              "error-container": "#ffdad6",
+              primary: "#001331",
+              "surface-bright": "#fff9ec",
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+            spacing: {
+              "margin-mobile": "1.25rem",
+              "space-md": "1rem",
+              "space-lg": "1.5rem",
+              margin: "3rem",
+              "space-xl": "2rem",
+              gutter: "1.5rem",
+              "space-3xl": "4rem",
+              "gutter-mobile": "1rem",
+              "space-sm": "0.75rem",
+              "margin-tablet": "2rem",
+              "space-2xl": "3xl",
+              "space-2xl": "3rem",
+              "space-xxs": "0.25rem",
+              "space-xs": "0.5rem",
+            },
+            fontFamily: {
+              "headline-md": ["Newsreader"],
+              "body-md": ["Plus Jakarta Sans"],
+              "title-sm": ["Plus Jakarta Sans"],
+              "body-sm": ["Plus Jakarta Sans"],
+              "label-md": ["Plus Jakarta Sans"],
+              "headline-lg-mobile": ["Newsreader"],
+              "title-md": ["Plus Jakarta Sans"],
+              "label-sm": ["Plus Jakarta Sans"],
+              "display-hero-mobile": ["Newsreader"],
+              "headline-sm": ["Newsreader"],
+              "headline-lg": ["Newsreader"],
+              "display-hero": ["Newsreader"],
+              "body-lg": ["Plus Jakarta Sans"],
+              caption: ["Plus Jakarta Sans"],
+            },
+            fontSize: {
+              "headline-md": [
+                "24px",
+                { lineHeight: "32px", fontWeight: "500" },
+              ],
+              "body-md": ["15px", { lineHeight: "24px", fontWeight: "400" }],
+              "title-sm": ["16px", { lineHeight: "24px", fontWeight: "600" }],
+              "body-sm": ["13px", { lineHeight: "20px", fontWeight: "400" }],
+              "label-md": [
+                "14px",
+                {
+                  lineHeight: "20px",
+                  letterSpacing: "0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-lg-mobile": [
+                "26px",
+                { lineHeight: "34px", fontWeight: "600" },
+              ],
+              "title-md": ["18px", { lineHeight: "26px", fontWeight: "600" }],
+              "label-sm": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "display-hero-mobile": [
+                "34px",
+                {
+                  lineHeight: "42px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-sm": [
+                "20px",
+                { lineHeight: "28px", fontWeight: "500" },
+              ],
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "40px",
+                  letterSpacing: "-0.015em",
+                  fontWeight: "600",
+                },
+              ],
+              "display-hero": [
+                "48px",
+                {
+                  lineHeight: "56px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+              caption: ["11px", { lineHeight: "16px", fontWeight: "500" }],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-surface font-body-md text-on-surface antialiased">
+    <header
+      class="fixed top-0 w-full z-50 bg-primary-container text-surface shadow-[0_4px_20px_rgba(0,19,49,0.25)]">
+      <div
+        class="h-20 max-w-7xl mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin flex items-center justify-between gap-space-md">
+        <div class="flex items-center gap-space-sm flex-shrink-0">
+          <img
+            alt="CONStay Logo"
+            class="h-8 w-auto object-contain"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1WQyPvckZWOltbQ5o6cmHeIY-O_54yvsUcj-hXB0Rnu6iSNaTGo10gZOoMiOaD4HGcXkSFJUMt4Q1AbdVmzdJa48aKp67JCxmc4r40uVNOccMqiIXbwXsJphx2iodD_1iy8byRqwXMr-595jePSxRFeKEYfJdQUO2oigHz9qFRZ17JQQ7EPzCLBAQxTajEkgEkpSEnpzIntl_xMPl05EEx8_t8otL9mdoaWEom6Bwf_jeSqLszUR_aeGZY" />
+        </div>
+        <nav
+          class="hidden lg:flex items-center gap-space-lg h-full"
+          data-active-classes="text-tertiary-fixed-dim border-b-2 border-tertiary-fixed-dim font-bold">
+          <a
+            class="text-tertiary-fixed-dim border-b border-tertiary-fixed-dim font-bold flex items-center h-full px-space-xs font-label-md text-label-md"
+            data-path="home-dashboard"
+            href="#"
+            >Home</a
+          ><a
+            class="text-surface-variant hover:text-surface transition-colors flex items-center h-full px-space-xs font-label-md text-label-md"
+            data-path="our-story"
+            href="#"
+            >Our Story</a
+          ><a
+            class="text-surface-variant hover:text-surface transition-colors flex items-center h-full px-space-xs font-label-md text-label-md"
+            data-path="con-community"
+            href="#"
+            >CON Community</a
+          ><a
+            class="text-surface-variant hover:text-surface transition-colors flex items-center h-full px-space-xs font-label-md text-label-md"
+            data-path="traditions-culture"
+            href="#"
+            >Traditions &amp; Culture</a
+          ><a
+            class="text-surface-variant hover:text-surface transition-colors flex items-center h-full px-space-xs font-label-md text-label-md"
+            data-path="what-we-carry"
+            href="#"
+            >What We Carry</a
+          ><a
+            class="text-surface-variant hover:text-surface transition-colors flex items-center h-full px-space-xs font-label-md text-label-md"
+            data-path="resources"
+            href="#"
+            >Resources</a
+          ><a
+            class="text-surface-variant hover:text-surface transition-colors flex items-center h-full px-space-xs font-label-md text-label-md"
+            data-path="about"
+            href="#"
+            >About</a
+          >
+        </nav>
+        <button
+          id="mobile-menu-toggle"
+          aria-label="Toggle mobile menu"
+          aria-expanded="false"
+          class="lg:hidden flex items-center justify-center w-10 h-10 rounded-full bg-primary hover:bg-secondary text-surface transition-colors focus:outline-none"
+          type="button">
+          <span
+            id="mobile-menu-icon"
+            class="material-symbols-outlined text-[24px]"
+            >menu</span
+          >
+        </button>
+      </div>
+      <div
+        id="mobile-nav-menu"
+        class="hidden lg:hidden border-t border-on-primary-fixed-variant/30 bg-primary-container px-margin-mobile md:px-margin-tablet py-space-lg shadow-xl">
+        <nav class="flex flex-col gap-space-xs">
+          <a
+            class="bg-primary text-tertiary-fixed-dim font-bold transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
+            data-path="home-dashboard"
+            href="#"
+            ><span class="">Home</span
+            ><span
+              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
+              >chevron_right</span
+            ></a
+          ><a
+            class="text-surface-variant hover:text-surface hover:bg-primary transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
+            data-path="our-story"
+            href="#"
+            ><span class="">Our Story</span
+            ><span
+              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
+              >chevron_right</span
+            ></a
+          ><a
+            class="text-surface-variant hover:text-surface hover:bg-primary transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
+            data-path="con-community"
+            href="#"
+            ><span class="">CON Community</span
+            ><span
+              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
+              >chevron_right</span
+            ></a
+          ><a
+            class="text-surface-variant hover:text-surface hover:bg-primary transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
+            data-path="traditions-culture"
+            href="#"
+            ><span class="">Traditions &amp; Culture</span
+            ><span
+              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
+              >chevron_right</span
+            ></a
+          ><a
+            class="text-surface-variant hover:text-surface hover:bg-primary transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
+            data-path="what-we-carry"
+            href="#"
+            ><span class="">What We Carry</span
+            ><span
+              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
+              >chevron_right</span
+            ></a
+          ><a
+            class="text-surface-variant hover:text-surface hover:bg-primary transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
+            data-path="resources"
+            href="#"
+            ><span class="">Resources</span
+            ><span
+              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
+              >chevron_right</span
+            ></a
+          ><a
+            class="text-surface-variant hover:text-surface hover:bg-primary transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
+            data-path="about"
+            href="#"
+            ><span class="">About</span
+            ><span
+              class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim"
+              >chevron_right</span
+            ></a
+          >
+        </nav>
+      </div>
+    </header>
+    <main class="w-full pt-20 bg-surface min-h-[calc(100vh-80px)]">
+      <div class="flex flex-col w-full">
+        <!-- Top Ambient Banner & Welcome Stage -->
+        <section
+          class="relative w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin pt-space-2xl pb-space-3xl overflow-hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+            <!-- Left Column: Content Narrative -->
+            <div class="lg:col-span-7 flex flex-col items-start z-10">
+              <div
+                class="inline-flex items-center gap-space-xs px-space-md py-space-xxs rounded-full bg-secondary-fixed text-on-secondary-fixed mb-space-lg shadow-sm">
+                <span
+                  class="material-symbols-outlined text-[16px] text-secondary"
+                  style="font-variation-settings: &quot;FILL&quot; 1"
+                  >local_hospital</span
+                >
+                <span
+                  class="font-label-sm text-label-sm uppercase tracking-wider"
+                  >College of Nursing • Academic Portal</span
+                >
+              </div>
+              <h1
+                class="font-display-hero text-display-hero text-primary tracking-tight mb-space-md">
+                CON: Beyond the Walls
+              </h1>
+              <p
+                class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mb-space-xl">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </p>
+              <div class="flex flex-wrap items-center gap-space-md">
+                <a
+                  class="inline-flex items-center gap-space-sm px-space-xl py-space-sm rounded-full bg-primary-container text-on-primary font-label-md text-label-md hover:bg-secondary transition-all transform hover:-translate-y-0.5 shadow-md group"
+                  data-path="our-story"
+                  href="#">
+                  <span class="">Explore CON</span>
+                  <span
+                    class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
+                    >arrow_forward</span
+                  >
+                </a>
+                <a
+                  class="inline-flex items-center gap-space-sm px-space-lg py-space-sm rounded-full bg-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-surface-dim transition-all"
+                  data-path="resources"
+                  href="#">
+                  <span
+                    class="material-symbols-outlined text-[18px] text-secondary"
+                    >explore</span
+                  >
+                  <span class="">Virtual Tour &amp; Archives</span>
+                </a>
+              </div>
+              <!-- Quick Snapshot Metric Strip -->
+              <div
+                class="grid grid-cols-3 gap-space-lg mt-space-3xl pt-space-xl border-t border-transparent bg-surface-container-low px-space-lg py-space-md rounded-DEFAULT w-full max-w-lg shadow-sm">
+                <div>
+                  <span
+                    class="block font-headline-md text-headline-md text-secondary"
+                    >100%</span
+                  >
+                  <span
+                    class="font-caption text-caption text-on-surface-variant uppercase tracking-wider"
+                    >NCLEX Board Pass</span
+                  >
+                </div>
+                <div>
+                  <span
+                    class="block font-headline-md text-headline-md text-primary"
+                    >75+</span
+                  >
+                  <span
+                    class="font-caption text-caption text-on-surface-variant uppercase tracking-wider"
+                    >Clinical Cohorts</span
+                  >
+                </div>
+                <div>
+                  <span
+                    class="block font-headline-md text-headline-md text-tertiary-container"
+                    >14k</span
+                  >
+                  <span
+                    class="font-caption text-caption text-on-surface-variant uppercase tracking-wider"
+                    >Global Alumni</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Right Column: Visual Architectural Mosaic / College Building -->
+            <div class="lg:col-span-5 relative mt-space-xl lg:mt-0">
+              <div
+                class="relative w-full aspect-[4/5] rounded-lg overflow-hidden shadow-xl bg-surface-container">
+                <img
+                  class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                  data-alt="Dignified neoclassical brick and limestone university nursing college building bathed in morning sunlight, stately pillars, arched stained-glass windows, collegiate green courtyard in shades of deep sapphire navy and warm cream."
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvV31wUoattWhPm4JOcJCabBT93IsAWAuWyo5r7-1x9TX2DFKdE4FedvCghYYCMa4Pk2jT3yanSy6cG9EzTHUBk5SCDtL8wv-c8Oz8JRUAJo5_URR_0nYinn3MjoOh__I6gh4RcDx3Uh-M-BlZ5YZ-JFtkTBfhxc2tIW7C1Fl48WKh5EU6dgxHUryqhlIy2O1hOvJP7l_dj59AmtL9M_DhJzGGswOET66f4nx0-CEDgvQImLLJgyYd" />
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent"></div>
+                <!-- Floating Architectural Badge -->
+                <div
+                  class="absolute bottom-space-lg left-space-lg right-space-lg bg-surface-container-lowest/95 backdrop-blur p-space-md rounded-DEFAULT shadow-lg flex items-center justify-between">
+                  <div class="flex items-center gap-space-sm">
+                    <div
+                      class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+                      <span class="material-symbols-outlined text-[20px]"
+                        >account_balance</span
+                      >
+                    </div>
+                    <div class="flex flex-col">
+                      <span
+                        class="font-title-sm text-title-sm text-primary leading-tight"
+                        >Founding Hall, Est. 1948</span
+                      >
+                      <span
+                        class="font-caption text-caption text-on-surface-variant"
+                        >Center for Clinical Research &amp; Ethics</span
+                      >
+                    </div>
+                  </div>
+                  <span
+                    class="w-2 h-2 rounded-full bg-secondary animate-ping mr-space-xs"></span>
+                </div>
+              </div>
+              <!-- Decorative Subtle Backing Ornament -->
+              <div
+                class="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-secondary-fixed/40 -z-10 blur-2xl pointer-events-none"></div>
+            </div>
+          </div>
+        </section>
+        <!-- Section 2: Explore CON Quick Links / 5 Category Cards -->
+        <section class="w-full bg-surface-container-low py-space-3xl">
+          <div
+            class="max-w-7xl mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin">
+            <div
+              class="flex flex-col md:flex-row md:items-end justify-between mb-space-2xl gap-space-sm">
+              <div>
+                <div
+                  class="flex items-center gap-space-xs text-secondary mb-space-xxs">
+                  <span class="material-symbols-outlined text-[20px]">hub</span>
+                  <span
+                    class="font-label-sm text-label-sm uppercase tracking-wider"
+                    >Gateway Index</span
+                  >
+                </div>
+                <h2 class="font-headline-lg text-headline-lg text-primary">
+                  Explore CON
+                </h2>
+              </div>
+              <p
+                class="font-body-sm text-body-sm text-on-surface-variant max-w-md">
+                Explore the five pillars that define our collegiate life,
+                collective history, frontline presence, and professional legacy.
+              </p>
+            </div>
+            <!-- 5 Interactive Horizontal Cards -->
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-gutter">
+              <!-- 1. Our Story -->
+              <a
+                class="group bg-surface-container-lowest p-space-lg rounded-DEFAULT shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between hover:-translate-y-1"
+                data-path="our-story"
+                href="#">
+                <div>
+                  <div
+                    class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary mb-space-md group-hover:bg-primary-container group-hover:text-surface transition-colors">
+                    <span class="material-symbols-outlined text-[24px]"
+                      >auto_stories</span
+                    >
+                  </div>
+                  <span
+                    class="font-caption text-caption text-on-surface-variant uppercase tracking-wider block mb-space-xxs"
+                    >Archive • 01</span
+                  >
+                  <h3
+                    class="font-title-md text-title-md text-primary mb-space-xs">
+                    Our Story
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                    From our founding charter to international health impact.
+                  </p>
+                </div>
+                <div
+                  class="pt-space-lg flex items-center justify-between text-secondary group-hover:text-primary transition-colors">
+                  <span class="font-label-sm text-label-sm">Browse</span>
+                  <span
+                    class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center group-hover:bg-secondary group-hover:text-surface transition-all">
+                    <span
+                      class="material-symbols-outlined text-[16px] group-hover:translate-x-0.5 transition-transform"
+                      >arrow_forward</span
+                    >
+                  </span>
+                </div>
+              </a>
+              <!-- 2. CON Community -->
+              <a
+                class="group bg-surface-container-lowest p-space-lg rounded-DEFAULT shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between hover:-translate-y-1"
+                data-path="con-community"
+                href="#">
+                <div>
+                  <div
+                    class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary mb-space-md group-hover:bg-primary-container group-hover:text-surface transition-colors">
+                    <span class="material-symbols-outlined text-[24px]"
+                      >groups</span
+                    >
+                  </div>
+                  <span
+                    class="font-caption text-caption text-on-surface-variant uppercase tracking-wider block mb-space-xxs"
+                    >Network • 02</span
+                  >
+                  <h3
+                    class="font-title-md text-title-md text-primary mb-space-xs">
+                    CON Community
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                    Student leadership, faculty scholars, preceptors, and
+                    cohorts.
+                  </p>
+                </div>
+                <div
+                  class="pt-space-lg flex items-center justify-between text-secondary group-hover:text-primary transition-colors">
+                  <span class="font-label-sm text-label-sm">Connect</span>
+                  <span
+                    class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center group-hover:bg-secondary group-hover:text-surface transition-all">
+                    <span
+                      class="material-symbols-outlined text-[16px] group-hover:translate-x-0.5 transition-transform"
+                      >arrow_forward</span
+                    >
+                  </span>
+                </div>
+              </a>
+              <!-- 3. Traditions & Culture -->
+              <a
+                class="group bg-surface-container-lowest p-space-lg rounded-DEFAULT shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between hover:-translate-y-1"
+                data-path="traditions-culture"
+                href="#">
+                <div>
+                  <div
+                    class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary mb-space-md group-hover:bg-primary-container group-hover:text-surface transition-colors">
+                    <span class="material-symbols-outlined text-[24px]"
+                      >military_tech</span
+                    >
+                  </div>
+                  <span
+                    class="font-caption text-caption text-on-surface-variant uppercase tracking-wider block mb-space-xxs"
+                    >Heritage • 03</span
+                  >
+                  <h3
+                    class="font-title-md text-title-md text-primary mb-space-xs">
+                    Traditions &amp; Culture
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                    The Pinning Ceremony, Nightingale Lamp, and collegiate
+                    songs.
+                  </p>
+                </div>
+                <div
+                  class="pt-space-lg flex items-center justify-between text-secondary group-hover:text-primary transition-colors">
+                  <span class="font-label-sm text-label-sm">Honors</span>
+                  <span
+                    class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center group-hover:bg-secondary group-hover:text-surface transition-all">
+                    <span
+                      class="material-symbols-outlined text-[16px] group-hover:translate-x-0.5 transition-transform"
+                      >arrow_forward</span
+                    >
+                  </span>
+                </div>
+              </a>
+              <!-- 4. What We Carry -->
+              <a
+                class="group bg-surface-container-lowest p-space-lg rounded-DEFAULT shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between hover:-translate-y-1"
+                data-path="what-we-carry"
+                href="#">
+                <div>
+                  <div
+                    class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary mb-space-md group-hover:bg-primary-container group-hover:text-surface transition-colors">
+                    <span class="material-symbols-outlined text-[24px]"
+                      >medical_services</span
+                    >
+                  </div>
+                  <span
+                    class="font-caption text-caption text-on-surface-variant uppercase tracking-wider block mb-space-xxs"
+                    >Duty • 04</span
+                  >
+                  <h3
+                    class="font-title-md text-title-md text-primary mb-space-xs">
+                    What We Carry
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                    Clinical kit, professional ethics, stethoscope, and
+                    compassion.
+                  </p>
+                </div>
+                <div
+                  class="pt-space-lg flex items-center justify-between text-secondary group-hover:text-primary transition-colors">
+                  <span class="font-label-sm text-label-sm">Examine</span>
+                  <span
+                    class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center group-hover:bg-secondary group-hover:text-surface transition-all">
+                    <span
+                      class="material-symbols-outlined text-[16px] group-hover:translate-x-0.5 transition-transform"
+                      >arrow_forward</span
+                    >
+                  </span>
+                </div>
+              </a>
+              <!-- 5. Resources -->
+              <a
+                class="group bg-surface-container-lowest p-space-lg rounded-DEFAULT shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between hover:-translate-y-1"
+                data-path="resources"
+                href="#">
+                <div>
+                  <div
+                    class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary mb-space-md group-hover:bg-primary-container group-hover:text-surface transition-colors">
+                    <span class="material-symbols-outlined text-[24px]"
+                      >folder_special</span
+                    >
+                  </div>
+                  <span
+                    class="font-caption text-caption text-on-surface-variant uppercase tracking-wider block mb-space-xxs"
+                    >Tools • 05</span
+                  >
+                  <h3
+                    class="font-title-md text-title-md text-primary mb-space-xs">
+                    Resources
+                  </h3>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
+                    Clinical guidelines, peer-reviewed journals, and study
+                    handbooks.
+                  </p>
+                </div>
+                <div
+                  class="pt-space-lg flex items-center justify-between text-secondary group-hover:text-primary transition-colors">
+                  <span class="font-label-sm text-label-sm">Access</span>
+                  <span
+                    class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center group-hover:bg-secondary group-hover:text-surface transition-all">
+                    <span
+                      class="material-symbols-outlined text-[16px] group-hover:translate-x-0.5 transition-transform"
+                      >arrow_forward</span
+                    >
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+        <!-- Section 3: Feature / Callout Banner ("Why does this matter?") -->
+        <section
+          class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin my-space-3xl">
+          <div
+            class="relative overflow-hidden rounded-lg bg-tertiary-fixed text-on-tertiary-fixed p-space-xl md:p-space-2xl shadow-md">
+            <div
+              class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-space-xl">
+              <div class="flex items-start gap-space-md max-w-3xl">
+                <div
+                  class="w-14 h-14 rounded-full bg-primary-container text-surface flex items-center justify-center flex-shrink-0 shadow-sm">
+                  <span
+                    class="material-symbols-outlined text-[28px] text-tertiary-fixed-dim"
+                    >lightbulb</span
+                  >
+                </div>
+                <div>
+                  <div class="flex items-center gap-space-xs mb-space-xxs">
+                    <span
+                      class="material-symbols-outlined text-[18px] text-secondary"
+                      >location_on</span
+                    >
+                    <span
+                      class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold"
+                      >Clinical Imperative</span
+                    >
+                  </div>
+                  <h3
+                    class="font-headline-md text-headline-md text-primary mb-space-xs">
+                    Why does this matter?
+                  </h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant">
+                    Nursing extends far outside lecture theatres and hospital
+                    walls. Our graduates embody holistic practice in mobile
+                    rural outreach, ICU rapid-response, clinical research
+                    laboratories, and global disaster operations.
+                  </p>
+                </div>
+              </div>
+              <a
+                class="flex-shrink-0 inline-flex items-center gap-space-sm px-space-xl py-space-sm rounded-full bg-secondary text-on-secondary font-label-md text-label-md hover:bg-primary-container transition-all group shadow-sm"
+                data-path="about"
+                href="#">
+                <span class="">Read Institutional Vision</span>
+                <span
+                  class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform"
+                  >arrow_forward</span
+                >
+              </a>
+            </div>
+            <!-- Subtle background flourish -->
+            <div
+              class="absolute -right-12 -bottom-12 w-64 h-64 rounded-full bg-secondary-fixed-dim/30 blur-3xl pointer-events-none"></div>
+          </div>
+        </section>
+        <!-- Section 4: Latest News Section (2-Column Layout) -->
+        <section
+          class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin pb-space-3xl">
+          <!-- Header with Newspaper Icon and View All -->
+          <div
+            class="flex items-center justify-between mb-space-2xl border-b border-surface-container-high pb-space-md">
+            <div class="flex items-center gap-space-sm">
+              <div
+                class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary">
+                <span class="material-symbols-outlined text-[22px]"
+                  >newspaper</span
+                >
+              </div>
+              <div>
+                <span
+                  class="font-caption text-caption text-on-surface-variant uppercase tracking-wider block"
+                  >Frontline Updates</span
+                >
+                <h2 class="font-headline-lg text-headline-lg text-primary">
+                  Latest News
+                </h2>
+              </div>
+            </div>
+            <a
+              class="inline-flex items-center gap-space-xs font-label-md text-label-md text-secondary hover:text-primary transition-colors group"
+              data-path="resources"
+              href="#">
+              <span class="">View All</span>
+              <span
+                class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
+                >arrow_forward</span
+              >
+            </a>
+          </div>
+          <!-- Two-Column News Grid -->
+          <div
+            class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-stretch">
+            <!-- Left: Large Featured Article Card -->
+            <div
+              id="featured-news-container"
+              class="lg:col-span-7 flex flex-col bg-surface-container-lowest rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow group"></div>
+            <!-- Right: List of 3-4 News Items -->
+            <div
+              id="news-list-container"
+              class="lg:col-span-5 flex flex-col gap-space-md justify-between"></div>
+          </div>
+        </section>
+        <!-- Interactive Quick-Filter Pill Bar for Nursing Specialties -->
+        <section
+          class="w-full bg-surface-container-low py-space-xl border-t border-surface-container-high">
+          <div
+            class="max-w-7xl mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin flex flex-col sm:flex-row items-center justify-between gap-space-md">
+            <div class="flex items-center gap-space-xs">
+              <span class="material-symbols-outlined text-[20px] text-secondary"
+                >filter_list</span
+              >
+              <span class="font-title-sm text-title-sm text-primary"
+                >Department Focus Tracks:</span
+              >
+            </div>
+            <div
+              class="flex flex-wrap items-center gap-space-xs justify-center sm:justify-end">
+              <button
+                class="px-space-md py-space-xxs rounded-full bg-primary-container text-surface font-label-sm text-label-sm hover:bg-secondary transition-colors"
+                type="button">
+                Critical Care
+              </button>
+              <button
+                class="px-space-md py-space-xxs rounded-full bg-surface-container-lowest text-on-surface font-label-sm text-label-sm hover:bg-secondary-fixed transition-colors"
+                type="button">
+                Pediatric &amp; Neonatal
+              </button>
+              <button
+                class="px-space-md py-space-xxs rounded-full bg-surface-container-lowest text-on-surface font-label-sm text-label-sm hover:bg-secondary-fixed transition-colors"
+                type="button">
+                Community &amp; Public Health
+              </button>
+              <button
+                class="px-space-md py-space-xxs rounded-full bg-surface-container-lowest text-on-surface font-label-sm text-label-sm hover:bg-secondary-fixed transition-colors"
+                type="button">
+                Psychiatric Mental Health
+              </button>
+              <button
+                class="px-space-md py-space-xxs rounded-full bg-surface-container-lowest text-on-surface font-label-sm text-label-sm hover:bg-secondary-fixed transition-colors"
+                type="button">
+                Gerontological Leadership
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+      <script>
+        // Simple interactive category card hover enhancement and path handling
+        document.querySelectorAll("[data-path]").forEach((link) => {
+          link.addEventListener("click", (e) => {
+            // Retains accessibility while previewing navigation
+            const path = link.getAttribute("data-path");
+            console.log("Navigating to portal section:", path);
+          });
+        });
+      </script>
+      <script>
+        (function () {
+          const toggleBtn = document.getElementById("mobile-menu-toggle");
+          const menu = document.getElementById("mobile-nav-menu");
+          const icon = document.getElementById("mobile-menu-icon");
+          if (toggleBtn && menu && icon) {
+            toggleBtn.addEventListener("click", function () {
+              const isHidden = menu.classList.contains("hidden");
+              if (isHidden) {
+                menu.classList.remove("hidden");
+                icon.textContent = "close";
+                toggleBtn.setAttribute("aria-expanded", "true");
+              } else {
+                menu.classList.add("hidden");
+                icon.textContent = "menu";
+                toggleBtn.setAttribute("aria-expanded", "false");
+              }
+            });
+            menu.querySelectorAll("a").forEach(function (link) {
+              link.addEventListener("click", function () {
+                menu.classList.add("hidden");
+                icon.textContent = "menu";
+                toggleBtn.setAttribute("aria-expanded", "false");
+              });
+            });
+          }
+        })();
+      </script>
+    </main>
+    <footer class="w-full bg-primary-container text-surface mt-space-3xl">
+      <div
+        class="max-w-7xl mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin pt-space-3xl pb-space-2xl">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-space-3xl">
+          <div
+            class="bg-primary p-space-xl rounded-lg flex flex-col justify-between shadow-[0_2px_8px_-2px_rgba(18,40,75,0.1)]">
+            <div class="mb-space-lg">
+              <div
+                class="flex items-center gap-space-xs text-tertiary-fixed-dim mb-space-xs">
+                <span class="material-symbols-outlined text-[20px]"
+                  >newspaper</span
+                ><span
+                  class="font-label-sm text-label-sm uppercase tracking-wider"
+                  >Dispatches &amp; Media</span
+                >
+              </div>
+              <h4
+                class="font-headline-sm text-headline-sm text-surface mb-space-xs">
+                Latest News
+              </h4>
+              <p class="font-body-sm text-body-sm text-surface-variant">
+                Frontline updates, research breakthroughs, clinical honors, and
+                community milestones from across the college.
+              </p>
+            </div>
+            <a
+              class="inline-flex items-center justify-between w-full px-space-lg py-space-sm rounded-full bg-secondary text-on-secondary font-label-md text-label-md hover:bg-secondary-container hover:text-on-secondary-container transition-all group"
+              data-path="resources"
+              href="#"
+              ><span class="">Explore News Archive</span
+              ><span
+                class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
+                >arrow_forward</span
+              ></a
+            >
+          </div>
+          <div
+            class="bg-primary p-space-xl rounded-lg flex flex-col justify-between shadow-[0_2px_8px_-2px_rgba(18,40,75,0.1)]">
+            <div class="mb-space-lg">
+              <div
+                class="flex items-center gap-space-xs text-tertiary-fixed-dim mb-space-xs">
+                <span class="material-symbols-outlined text-[20px]"
+                  >local_hospital</span
+                ><span
+                  class="font-label-sm text-label-sm uppercase tracking-wider"
+                  >Our Identity</span
+                >
+              </div>
+              <h4
+                class="font-headline-sm text-headline-sm text-surface mb-space-xs">
+                About the College
+              </h4>
+              <p class="font-body-sm text-body-sm text-surface-variant">
+                Founded on ethical care, evidence-based inquiry, and collegiate
+                clinical leadership beyond classroom boundaries.
+              </p>
+            </div>
+            <a
+              class="inline-flex items-center justify-between w-full px-space-lg py-space-sm rounded-full bg-secondary text-on-secondary font-label-md text-label-md hover:bg-secondary-container hover:text-on-secondary-container transition-all group"
+              data-path="about"
+              href="#"
+              ><span class="">Discover Mission</span
+              ><span
+                class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
+                >arrow_forward</span
+              ></a
+            >
+          </div>
+          <div
+            class="bg-primary p-space-xl rounded-lg flex flex-col justify-between shadow-[0_2px_8px_-2px_rgba(18,40,75,0.1)]">
+            <div class="mb-space-lg">
+              <div
+                class="flex items-center gap-space-xs text-tertiary-fixed-dim mb-space-xs">
+                <span class="material-symbols-outlined text-[20px]"
+                  >support_agent</span
+                ><span
+                  class="font-label-sm text-label-sm uppercase tracking-wider"
+                  >Liaison &amp; Preceptors</span
+                >
+              </div>
+              <h4
+                class="font-headline-sm text-headline-sm text-surface mb-space-xs">
+                Connect &amp; Inquire
+              </h4>
+              <p class="font-body-sm text-body-sm text-surface-variant">
+                Reach out to faculty offices, clinical coordinators, student
+                council executives, and alumni relations.
+              </p>
+            </div>
+            <a
+              class="inline-flex items-center justify-between w-full px-space-lg py-space-sm rounded-full bg-secondary text-on-secondary font-label-md text-label-md hover:bg-secondary-container hover:text-on-secondary-container transition-all group"
+              data-path="about"
+              href="#"
+              ><span class="">Get In Touch</span
+              ><span
+                class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform"
+                >arrow_forward</span
+              ></a
+            >
+          </div>
+        </div>
+        <div
+          class="pt-space-xl border-t border-on-primary-fixed-variant/30 flex flex-col sm:flex-row items-center justify-between gap-space-md">
+          <div
+            class="flex flex-col sm:flex-row items-center gap-space-xs sm:gap-space-sm text-center sm:text-left">
+            <span class="font-label-sm text-label-sm text-surface-variant"
+              >© 2025 College of Nursing. CONStay: Beyond the Walls. All rights
+              reserved.</span
+            >
+          </div>
+          <div class="flex items-center gap-space-md text-surface-variant">
+            <a
+              aria-label="Community Portal"
+              class="w-9 h-9 rounded-full bg-primary flex items-center justify-center hover:text-tertiary-fixed-dim hover:bg-surface-container-highest/20 transition-all"
+              href="#"
+              ><span class="material-symbols-outlined text-[18px]"
+                >public</span
+              ></a
+            ><a
+              aria-label="Global Network"
+              class="w-9 h-9 rounded-full bg-primary flex items-center justify-center hover:text-tertiary-fixed-dim hover:bg-surface-container-highest/20 transition-all"
+              href="#"
+              ><span class="material-symbols-outlined text-[18px]"
+                >language</span
+              ></a
+            ><a
+              aria-label="College Directory"
+              class="w-9 h-9 rounded-full bg-primary flex items-center justify-center hover:text-tertiary-fixed-dim hover:bg-surface-container-highest/20 transition-all"
+              href="#"
+              ><span class="material-symbols-outlined text-[18px]"
+                >share</span
+              ></a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
