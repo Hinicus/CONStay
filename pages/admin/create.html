@@ -42,9 +42,6 @@
         </div>
 
         <form id="create-news-form" class="flex flex-col gap-6">
-          <!-- Temporary hardcoded Author ID -->
-          <input type="hidden" id="authorId" value="admin_user_123" />
-
           <!-- Headline -->
           <div>
             <label class="block font-title-sm text-title-sm text-primary mb-2"
@@ -202,5 +199,6 @@
     <!-- Scripts -->
     <script src="/components.js"></script>
     <script src="/pages/admin/create.js"></script>
+    <script type="module" src="/pages/admin/auth-guard.js"></script>
   </body>
 </html>

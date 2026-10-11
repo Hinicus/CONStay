@@ -31,11 +31,21 @@
               Manage Articles
             </h1>
           </div>
-          <a
-            href="/pages/admin/create.html"
-            class="bg-secondary hover:bg-primary text-white text-sm font-bold py-2.5 px-4 rounded-xl transition-colors flex items-center gap-2">
-            <span class="material-symbols-outlined text-sm">add</span> New
-          </a>
+
+          <!-- Action Buttons -->
+          <div class="flex items-center gap-3">
+            <button
+              id="logout-btn"
+              class="bg-surface-container-high hover:bg-surface-dim text-on-surface font-bold py-2.5 px-4 rounded-xl transition-colors flex items-center gap-2 text-sm border border-outline-variant">
+              <span class="material-symbols-outlined text-[18px]">logout</span>
+              Sign Out
+            </button>
+            <a
+              href="/pages/admin/create.html"
+              class="bg-secondary hover:bg-primary text-white text-sm font-bold py-2.5 px-4 rounded-xl transition-colors flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px]">add</span> New
+            </a>
+          </div>
         </div>
 
         <!-- JavaScript will inject the list of articles here -->
@@ -50,5 +60,6 @@
     <div id="footer-placeholder"></div>
     <script src="/components.js"></script>
     <script src="/pages/admin/manage.js"></script>
+    <script type="module" src="/pages/admin/auth-guard.js"></script>
   </body>
 </html>

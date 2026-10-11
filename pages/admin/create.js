@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "imageCredit",
       document.getElementById("imageCredit").value,
     );
-    formData.append("authorId", document.getElementById("authorId").value);
+    formData.append("authorId", sessionStorage.getItem("currentUserId"));
 
     // 4. Append either the file OR the link based on the radio button
     const selectedMode = document.querySelector(
