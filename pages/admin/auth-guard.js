@@ -31,8 +31,11 @@ onAuthStateChanged(auth, async (user) => {
     const userData = userSnap.data();
 
     // Check if they are allowed in
-    if (userData.approvalStatus === "pending") {
-      alert("Your account is currently pending approval by an admin.");
+    if (userData.approvalStatus !== "approved") {
+      alert(
+        `Access denied. Your account status is: ${userData.approvalStatus}.`,
+      );
+      sessionStorage.clear();
       await signOut(auth);
       return;
     }

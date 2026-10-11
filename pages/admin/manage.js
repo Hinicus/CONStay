@@ -15,6 +15,11 @@ async function fetchManageArticles() {
   const listContainer = document.getElementById("articles-list");
   const currentUserId = sessionStorage.getItem("currentUserId");
   const userRole = sessionStorage.getItem("userRole");
+  const userName = sessionStorage.getItem("userName");
+
+  // Greeting
+  document.getElementById("user-greeting").textContent =
+    `Logged in as ${userName} (${userRole.toUpperCase()})`;
 
   // Show the Admin Panel if the user is an admin
   if (userRole === "admin") {
@@ -120,7 +125,7 @@ async function fetchPendingAuthors() {
       return;
     }
 
-    // Render the list of pending users with an Approve button
+    // Render the list of pending users
     container.innerHTML = snap.docs
       .map((doc) => {
         const user = doc.data();
@@ -130,9 +135,14 @@ async function fetchPendingAuthors() {
             <p class="text-sm font-bold text-primary">${user.name}</p>
             <p class="text-xs text-on-surface-variant">${user.email}</p>
           </div>
-          <button onclick="approveUser('${user.uid}')" class="px-4 py-2 bg-secondary hover:bg-primary text-white rounded-lg text-xs font-bold transition-colors shadow-sm">
-            Approve
-          </button>
+          <div class="flex items-center gap-2">
+            <button onclick="approveUser('${user.uid}')" class="px-4 py-2 bg-[#438bc4] hover:bg-[#3472a5] text-white rounded-lg text-xs font-bold transition-colors shadow-sm">
+              Approve
+            </button>
+            <button onclick="rejectUser('${user.uid}')" class="px-4 py-2 bg-surface-container-high hover:bg-[#ba1a1a] hover:text-white text-on-surface-variant rounded-lg text-xs font-bold transition-colors border border-outline-variant hover:border-[#ba1a1a]">
+              Reject
+            </button>
+          </div>
         </div>
       `;
       })
@@ -161,5 +171,24 @@ window.approveUser = async function (uid) {
   } catch (error) {
     console.error("Error approving user:", error);
     alert("Failed to approve user. Check console for details.");
+  }
+};
+
+// --- Reject User ---
+window.rejectUser = async function (uid) {
+  const isConfirmed = confirm(
+    "Are you sure you want to REJECT this application? They will not be granted access.",
+  );
+  if (!isConfirmed) return;
+
+  try {
+    await updateDoc(doc(db, "users", uid), {
+      approvalStatus: "rejected",
+    });
+
+    fetchPendingAuthors(); // Refresh the list
+  } catch (error) {
+    console.error("Error rejecting user:", error);
+    alert("Failed to reject user.");
   }
 };
