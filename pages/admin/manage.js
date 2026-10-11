@@ -22,7 +22,13 @@ async function fetchManageArticles() {
           <p class="text-xs text-on-surface-variant font-bold">Published: ${article.date} • By ${article.authorName}</p>
         </div>
         <div class="flex items-center gap-2">
-          <!-- This links to the edit page we will build next, passing the ID in the URL -->
+
+            <!-- View Button -->
+            <a href="/pages/article/article.html?id=${article.id}" target="_blank" class="px-4 py-2 bg-surface-container-low border border-outline-variant text-primary rounded-lg text-xs font-bold hover:bg-surface-dim transition-colors flex items-center gap-1">
+             <span class="material-symbols-outlined text-[16px]">visibility</span> View
+            </a>
+
+          <!-- This links to the edit page by passing the ID in the URL -->
           <a href="/pages/admin/edit.html?id=${article.id}" class="px-4 py-2 bg-surface-container-low border border-outline-variant text-primary rounded-lg text-xs font-bold hover:bg-surface-dim transition-colors flex items-center gap-1">
             <span class="material-symbols-outlined text-[16px]">edit</span> Edit
           </a>
