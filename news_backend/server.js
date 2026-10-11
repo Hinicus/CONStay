@@ -96,6 +96,53 @@ app.get("/api/news/:id", async (req, res) => {
   }
 });
 
+// POST endpoint to create a new article
+app.post("/api/news", async (req, res) => {
+  try {
+    // Extract the data from the incoming request body
+    const {
+      title,
+      snippet,
+      content,
+      imageUrl,
+      imageCaption,
+      imageCredit,
+      authorId,
+    } = req.body;
+
+    // Basic validation
+    if (!title || !content || !authorId) {
+      return res
+        .status(400)
+        .json({ error: "Title, content, and authorId are required." });
+    }
+
+    // Create a new document in the 'news' collection
+    const newArticleRef = db.collection("news").doc();
+
+    const articleData = {
+      title,
+      snippet: snippet || "",
+      content,
+      imageUrl: imageUrl || "",
+      imageCaption: imageCaption || "",
+      imageCredit: imageCredit || "",
+      authorId,
+      date: FieldValue.serverTimestamp(), // Automatically stamps the current time
+    };
+
+    await newArticleRef.set(articleData);
+
+    res.status(201).json({
+      message: "Article created successfully!",
+      id: newArticleRef.id,
+    });
+  } catch (error) {
+    console.error("Error creating article:", error);
+    res.status(500).json({ error: "Failed to create article" });
+  }
+});
+
 // Helper function to fetch an author's name
 async function getAuthorName(authorId) {
   if (!authorId) return "Unknown Author";

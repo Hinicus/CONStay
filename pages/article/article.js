@@ -42,20 +42,10 @@ async function fetchSingleArticle() {
       captionContainer.classList.remove("hidden"); // Reveal the container
     }
 
-    // 4. Format the content into paragraphs (assuming it's saved as plain text)
+    // 4. Format the content
     const contentContainer = document.getElementById("article-content");
     if (article.content) {
-      // Split the text by line breaks and wrap each in a <p> tag
-      const formattedContent = article.content
-        .split("\n")
-        .filter((paragraph) => paragraph.trim() !== "")
-        .map(
-          (paragraph) =>
-            `<p class="text-xl sm:text-2xl font-serif text-[#12284b] leading-relaxed font-normal mb-8">${paragraph}</p>`,
-        )
-        .join("");
-
-      contentContainer.innerHTML = formattedContent;
+      contentContainer.innerHTML = article.content;
     } else {
       contentContainer.innerHTML = "<p>No content available.</p>";
     }
