@@ -3,16 +3,47 @@ const cors = require("cors");
 const multer = require("multer");
 require("dotenv").config();
 
+//Modular Imports
 const { initializeApp, cert } = require("firebase-admin/app");
 const { getFirestore, FieldValue } = require("firebase-admin/firestore");
+const { getAuth } = require("firebase-admin/auth"); // <-- NEW Auth import
 
 const serviceAccount = require("./serviceAccountKey.json");
 
+//Initialize Firebase Admin
 initializeApp({
   credential: cert(serviceAccount),
 });
 
+// Initialize your database
 const db = getFirestore();
+
+// 3. Updated Auth Guard Middleware
+const verifyToken = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  // If there is no token, reject the request
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res
+      .status(401)
+      .json({ error: "Unauthorized: Missing or invalid token." });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    // Verify the token using the modular getAuth() function
+    const decodedToken = await getAuth().verifyIdToken(token);
+    req.user = decodedToken; // Attach the user info to the request
+    next(); // The badge is valid, let them through to the route!
+  } catch (error) {
+    console.error("Token verification failed:", error);
+    return res
+      .status(403)
+      .json({ error: "Forbidden: Expired or invalid token." });
+  }
+};
+
 const app = express();
 
 // --- Cloudinary Setup ---
@@ -39,60 +70,64 @@ app.use(cors());
 app.use(express.json());
 
 // --- 1. POST Endpoint (Create Article) ---
-// Notice how upload.single("imageFile") is here, allowing us to catch the file!
-app.post("/api/news", upload.single("imageFile"), async (req, res) => {
-  try {
-    const {
-      title,
-      snippet,
-      content,
-      imageUrl,
-      imageCaption,
-      imageCredit,
-      authorId,
-    } = req.body;
+app.post(
+  "/api/news",
+  verifyToken,
+  upload.single("imageFile"),
+  async (req, res) => {
+    try {
+      const {
+        title,
+        snippet,
+        content,
+        imageUrl,
+        imageCaption,
+        imageCredit,
+        authorId,
+      } = req.body;
 
-    if (!title || !content || !authorId) {
-      return res
-        .status(400)
-        .json({ error: "Title, content, and authorId are required." });
+      if (!title || !content || !authorId) {
+        return res
+          .status(400)
+          .json({ error: "Title, content, and authorId are required." });
+      }
+
+      // Decide which image URL to save (File upload vs. Pasted Link)
+      let finalImageUrl = "";
+      if (req.file) {
+        finalImageUrl = req.file.path; // Cloudinary successfully uploaded the file
+      } else if (imageUrl) {
+        finalImageUrl = imageUrl; // The user pasted a web link
+      } else {
+        return res
+          .status(400)
+          .json({ error: "Please provide an image file or an image link." });
+      }
+
+      const newArticleRef = db.collection("news").doc();
+      const articleData = {
+        title,
+        snippet: snippet || "",
+        content,
+        imageUrl: finalImageUrl,
+        imageCaption: imageCaption || "",
+        imageCredit: imageCredit || "",
+        authorId,
+        date: FieldValue.serverTimestamp(),
+      };
+
+      await newArticleRef.set(articleData);
+
+      res.status(201).json({
+        message: "Article created successfully!",
+        id: newArticleRef.id,
+      });
+    } catch (error) {
+      console.error("Error creating article:", error);
+      res.status(500).json({ error: "Failed to create article" });
     }
-
-    // Decide which image URL to save (File upload vs. Pasted Link)
-    let finalImageUrl = "";
-    if (req.file) {
-      finalImageUrl = req.file.path; // Cloudinary successfully uploaded the file
-    } else if (imageUrl) {
-      finalImageUrl = imageUrl; // The user pasted a web link
-    } else {
-      return res
-        .status(400)
-        .json({ error: "Please provide an image file or an image link." });
-    }
-
-    const newArticleRef = db.collection("news").doc();
-    const articleData = {
-      title,
-      snippet: snippet || "",
-      content,
-      imageUrl: finalImageUrl,
-      imageCaption: imageCaption || "",
-      imageCredit: imageCredit || "",
-      authorId,
-      date: FieldValue.serverTimestamp(),
-    };
-
-    await newArticleRef.set(articleData);
-
-    res.status(201).json({
-      message: "Article created successfully!",
-      id: newArticleRef.id,
-    });
-  } catch (error) {
-    console.error("Error creating article:", error);
-    res.status(500).json({ error: "Failed to create article" });
-  }
-});
+  },
+);
 
 // --- 2. GET Endpoint (All Articles for Dashboard) ---
 app.get("/api/news", async (req, res) => {
@@ -166,7 +201,7 @@ app.get("/api/news/:id", async (req, res) => {
 });
 
 // --- 4. DELETE Endpoint (Remove Article) ---
-app.delete("/api/news/:id", async (req, res) => {
+app.delete("/api/news/:id", verifyToken, async (req, res) => {
   try {
     const articleId = req.params.id;
     await db.collection("news").doc(articleId).delete();
@@ -178,53 +213,60 @@ app.delete("/api/news/:id", async (req, res) => {
 });
 
 // --- 5. PUT Endpoint (Update Article) ---
-app.put("/api/news/:id", upload.single("imageFile"), async (req, res) => {
-  try {
-    const articleId = req.params.id;
-    const {
-      title,
-      snippet,
-      content,
-      imageUrl,
-      imageCaption,
-      imageCredit,
-      lastEditedBy,
-    } = req.body;
+app.put(
+  "/api/news/:id",
+  verifyToken,
+  upload.single("imageFile"),
+  async (req, res) => {
+    try {
+      const articleId = req.params.id;
+      const {
+        title,
+        snippet,
+        content,
+        imageUrl,
+        imageCaption,
+        imageCredit,
+        lastEditedBy,
+      } = req.body;
 
-    if (!title || !content) {
-      return res.status(400).json({ error: "Title and content are required." });
+      if (!title || !content) {
+        return res
+          .status(400)
+          .json({ error: "Title and content are required." });
+      }
+
+      // Prepare the updated fields (Notice we don't update authorId or the original date)
+      let updateData = {
+        title,
+        snippet: snippet || "",
+        content,
+        imageCaption: imageCaption || "",
+        imageCredit: imageCredit || "",
+        lastEditedBy: lastEditedBy || "Admin",
+        lastUpdatedAt: new Date().toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
+      };
+
+      // Only update the image if the user uploaded a new file or pasted a new link
+      if (req.file) {
+        updateData.imageUrl = req.file.path; // New Cloudinary upload
+      } else if (imageUrl) {
+        updateData.imageUrl = imageUrl; // New text link
+      }
+
+      await db.collection("news").doc(articleId).update(updateData);
+
+      res.status(200).json({ message: "Article updated successfully!" });
+    } catch (error) {
+      console.error("Error updating article:", error);
+      res.status(500).json({ error: "Failed to update article" });
     }
-
-    // Prepare the updated fields (Notice we don't update authorId or the original date)
-    let updateData = {
-      title,
-      snippet: snippet || "",
-      content,
-      imageCaption: imageCaption || "",
-      imageCredit: imageCredit || "",
-      lastEditedBy: lastEditedBy || "Admin",
-      lastUpdatedAt: new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-    };
-
-    // Only update the image if the user uploaded a new file or pasted a new link
-    if (req.file) {
-      updateData.imageUrl = req.file.path; // New Cloudinary upload
-    } else if (imageUrl) {
-      updateData.imageUrl = imageUrl; // New text link
-    }
-
-    await db.collection("news").doc(articleId).update(updateData);
-
-    res.status(200).json({ message: "Article updated successfully!" });
-  } catch (error) {
-    console.error("Error updating article:", error);
-    res.status(500).json({ error: "Failed to update article" });
-  }
-});
+  },
+);
 
 // --- Helper Function ---
 async function getAuthorName(authorId) {

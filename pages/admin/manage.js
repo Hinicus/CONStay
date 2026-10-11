@@ -9,6 +9,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 import { db } from "/firebase-client.js";
 
+import { auth } from "/firebase-client.js";
+
 document.addEventListener("DOMContentLoaded", fetchManageArticles);
 
 async function fetchManageArticles() {
@@ -44,12 +46,18 @@ async function fetchManageArticles() {
         const canEdit = userRole === "admin" || isOwner;
 
         return `
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 border border-outline-variant rounded-xl bg-surface-bright gap-4 hover:shadow-sm transition-shadow">
-          <div>
-            <h3 class="font-title-sm text-title-sm text-primary mb-1">${article.title}</h3>
-            <p class="text-xs text-on-surface-variant font-bold">Published: ${article.date} • By ${article.authorName}</p>
-          </div>
-          <div class="flex items-center gap-2">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 border border-outline-variant rounded-xl bg-surface-bright gap-4 hover:shadow-sm transition-shadow">
+                <div>
+                  <h3 class="font-title-sm text-title-sm text-primary mb-1">${article.title}</h3>
+                  <p class="text-xs text-on-surface-variant font-bold">Published: ${article.date} • By ${article.authorName}</p>${
+                    article.lastEditedBy
+                      ? `<p class="text-[10px] text-on-surface-variant mt-1 italic">
+                      Last updated by ${article.lastEditedBy} on ${article.lastUpdatedAt || "recently"}
+                    </p>`
+                      : ""
+                  }
+                </div>
+                <div class="flex items-center gap-2">
             
             <a href="/pages/article/article.html?id=${article.id}" target="_blank" class="px-4 py-2 bg-surface-container-low border border-outline-variant text-primary rounded-lg text-xs font-bold hover:bg-surface-dim transition-colors flex items-center gap-1">
               <span class="material-symbols-outlined text-[16px]">visibility</span> View
@@ -88,12 +96,17 @@ window.deleteArticle = async function (id) {
   const isConfirmed = confirm(
     "Are you sure you want to permanently delete this article? This cannot be undone.",
   );
+  // Get tokens
+  const token = await auth.currentUser.getIdToken();
   if (!isConfirmed) return;
 
   try {
     // 2. Send the DELETE request to Express
     const response = await fetch(`http://localhost:3000/api/news/${id}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`, // Attach the badge
+      },
     });
 
     if (response.ok) {
@@ -130,27 +143,20 @@ async function fetchPendingAuthors() {
       .map((doc) => {
         const user = doc.data();
         return `
-        <div class="flex items-center justify-between p-3 bg-surface-bright rounded-lg border border-outline-variant">
-          <div>
-            <p class="text-sm font-bold text-primary">${user.name}</p>
-            <p class="text-xs text-on-surface-variant">${user.email}</p>
-            ${
-              article.lastEditedBy
-                ? `<p class="text-[10px] text-on-surface-variant mt-1 italic">
-                Last updated by ${article.lastEditedBy} on ${article.lastUpdatedAt || "recently"}
-               </p>`
-                : ""
-            }
-          </div>
-          <div class="flex items-center gap-2">
-            <button onclick="approveUser('${user.uid}')" class="px-4 py-2 bg-[#438bc4] hover:bg-[#3472a5] text-white rounded-lg text-xs font-bold transition-colors shadow-sm">
-              Approve
-            </button>
-            <button onclick="rejectUser('${user.uid}')" class="px-4 py-2 bg-surface-container-high hover:bg-[#ba1a1a] hover:text-white text-on-surface-variant rounded-lg text-xs font-bold transition-colors border border-outline-variant hover:border-[#ba1a1a]">
-              Reject
-            </button>
-          </div>
-        </div>
+          <div class="flex items-center justify-between p-3 bg-surface-bright rounded-lg border border-outline-variant">
+                <div>
+                  <p class="text-sm font-bold text-primary">${user.name}</p>
+                  <p class="text-xs text-on-surface-variant">${user.email}</p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button onclick="approveUser('${user.uid}')" class="px-4 py-2 bg-[#438bc4] hover:bg-[#3472a5] text-white rounded-lg text-xs font-bold transition-colors shadow-sm">
+                    Approve
+                  </button>
+                  <button onclick="rejectUser('${user.uid}')" class="px-4 py-2 bg-surface-container-high hover:bg-[#ba1a1a] hover:text-white text-on-surface-variant rounded-lg text-xs font-bold transition-colors border border-outline-variant hover:border-[#ba1a1a]">
+                    Reject
+                  </button>
+                </div>
+              </div>
       `;
       })
       .join("");

@@ -1,3 +1,5 @@
+import { auth } from "/firebase-client.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Initialize Quill Editor
   const quill = new Quill("#editor-container", {
@@ -91,10 +93,25 @@ document.addEventListener("DOMContentLoaded", () => {
     messageDiv.className =
       "mt-4 p-4 rounded-lg text-sm font-bold bg-[#f5ede0] text-[#12284b] block";
 
+    //Check to see if Firebase knows who is logged in
+    if (!auth.currentUser) {
+      messageDiv.textContent =
+        "Authentication error: Please refresh the page and try again.";
+      messageDiv.className =
+        "mt-4 p-4 rounded-lg text-sm font-bold bg-[#ffdad6] text-[#93000a] block";
+      return;
+    }
+
+    // Get token
+    const token = await auth.currentUser.getIdToken();
+
     try {
       // 5. Send the POST request to the backend
       const response = await fetch("http://localhost:3000/api/news", {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         // CRITICAL: Do NOT set 'Content-Type': 'application/json' when sending FormData.
         // The browser will automatically set the correct headers for the file upload.
         body: formData,
