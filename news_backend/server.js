@@ -129,40 +129,31 @@ app.post(
   },
 );
 
-// --- 2. GET Endpoint (All Articles for Dashboard) ---
+// Public GET route with Pagination
 app.get("/api/news", async (req, res) => {
   try {
-    const newsRef = db.collection("news");
-    const snapshot = await newsRef.orderBy("date", "desc").limit(4).get();
+    // 1. Figure out which page the user is asking for (default to 1)
+    const page = parseInt(req.query.page) || 1;
+    const limitCount = 6; // How many articles per page
+    const offsetCount = (page - 1) * limitCount; // How many articles to skip
 
-    if (snapshot.empty) {
-      return res.status(404).json({ message: "No news articles found." });
-    }
+    // 2. Query Firestore with limits
+    const snapshot = await db
+      .collection("news")
+      .orderBy("date", "desc")
+      .offset(offsetCount)
+      .limit(limitCount)
+      .get();
 
-    let newsData = [];
-    for (const doc of snapshot.docs) {
-      const data = doc.data();
-      const authorName = await getAuthorName(data.authorId);
+    const articles = [];
+    snapshot.forEach((doc) => {
+      articles.push({ id: doc.id, ...doc.data() });
+    });
 
-      const formattedDate = data.date
-        ? data.date.toDate().toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          })
-        : "No date";
-
-      newsData.push({
-        id: doc.id,
-        ...data,
-        date: formattedDate,
-        authorName: authorName,
-      });
-    }
-    res.status(200).json(newsData);
+    res.json(articles);
   } catch (error) {
-    console.error("Error fetching news:", error);
-    res.status(500).json({ error: "Failed to fetch news" });
+    console.error("Fetch error:", error);
+    res.status(500).json({ error: "Failed to fetch articles." });
   }
 });
 
