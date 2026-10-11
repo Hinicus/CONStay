@@ -4,6 +4,7 @@ news_backend/node_modules/
 # environment variables
 serviceAccountkey.json
 .env
+firebase-client.js
 
 #System files
 .DS_Store
