@@ -134,6 +134,13 @@ async function fetchPendingAuthors() {
           <div>
             <p class="text-sm font-bold text-primary">${user.name}</p>
             <p class="text-xs text-on-surface-variant">${user.email}</p>
+            ${
+              article.lastEditedBy
+                ? `<p class="text-[10px] text-on-surface-variant mt-1 italic">
+                Last updated by ${article.lastEditedBy} on ${article.lastUpdatedAt || "recently"}
+               </p>`
+                : ""
+            }
           </div>
           <div class="flex items-center gap-2">
             <button onclick="approveUser('${user.uid}')" class="px-4 py-2 bg-[#438bc4] hover:bg-[#3472a5] text-white rounded-lg text-xs font-bold transition-colors shadow-sm">

@@ -99,6 +99,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     formData.append("content", richTextContent);
     formData.append("imageCaption", imageCaptionInput.value);
     formData.append("imageCredit", imageCreditInput.value);
+    formData.append("lastEditedBy", sessionStorage.getItem("userName"));
 
     const selectedMode = document.querySelector(
       'input[name="imageMode"]:checked',

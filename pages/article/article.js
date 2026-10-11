@@ -24,6 +24,16 @@ async function fetchSingleArticle() {
     document.getElementById("article-date").textContent = article.date;
     document.getElementById("article-author").textContent = article.authorName;
 
+    // Check for edit history
+    const editContainer = document.getElementById("article-edit-container");
+    const editHistory = document.getElementById("article-edit-history");
+
+    if (article.lastEditedBy) {
+      editContainer.classList.remove("hidden");
+      editContainer.classList.add("flex");
+      editHistory.textContent = `Updated by ${article.lastEditedBy} on ${article.lastUpdatedAt}`;
+    }
+
     const imgEl = document.getElementById("article-image");
     imgEl.src = article.imageUrl || "https://via.placeholder.com/1200x600";
     imgEl.alt = article.title;
@@ -34,7 +44,7 @@ async function fetchSingleArticle() {
       creditEl.classList.remove("hidden"); // Reveal the element
     }
 
-    // NEW: Handle optional Image Caption
+    // Handle optional Image Caption
     const captionContainer = document.getElementById("caption-container");
     const captionEl = document.getElementById("image-caption");
     if (article.imageCaption && article.imageCaption.trim() !== "") {

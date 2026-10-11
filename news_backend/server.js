@@ -181,8 +181,15 @@ app.delete("/api/news/:id", async (req, res) => {
 app.put("/api/news/:id", upload.single("imageFile"), async (req, res) => {
   try {
     const articleId = req.params.id;
-    const { title, snippet, content, imageUrl, imageCaption, imageCredit } =
-      req.body;
+    const {
+      title,
+      snippet,
+      content,
+      imageUrl,
+      imageCaption,
+      imageCredit,
+      lastEditedBy,
+    } = req.body;
 
     if (!title || !content) {
       return res.status(400).json({ error: "Title and content are required." });
@@ -195,6 +202,12 @@ app.put("/api/news/:id", upload.single("imageFile"), async (req, res) => {
       content,
       imageCaption: imageCaption || "",
       imageCredit: imageCredit || "",
+      lastEditedBy: lastEditedBy || "Admin",
+      lastUpdatedAt: new Date().toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
     };
 
     // Only update the image if the user uploaded a new file or pasted a new link
