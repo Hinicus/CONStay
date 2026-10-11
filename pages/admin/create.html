@@ -118,7 +118,7 @@
                     name="imageMode"
                     value="upload"
                     checked
-                    class="w-4 h-4 text-blueberry focus:ring-blueberry border-outline-variant" />
+                    class="w-4 h-4 text-secondary focus:ring-secondary border-outline-variant" />
                   <span>Upload File</span>
                 </label>
                 <label
@@ -127,7 +127,7 @@
                     type="radio"
                     name="imageMode"
                     value="link"
-                    class="w-4 h-4 text-blueberry focus:ring-blueberry border-outline-variant" />
+                    class="w-4 h-4 text-secondary focus:ring-secondary border-outline-variant" />
                   <span>Paste Web Link</span>
                 </label>
               </div>
@@ -150,11 +150,38 @@
                   placeholder="https://example.com/image.jpg" />
               </div>
 
+              <!-- ADD THIS BLOCK BACK -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div>
+                  <label
+                    class="block font-label-sm text-label-sm text-on-surface-variant mb-1"
+                    >Image Caption (Optional)</label
+                  >
+                  <input
+                    type="text"
+                    id="imageCaption"
+                    class="w-full p-3 border border-outline-variant rounded-lg bg-surface-bright font-body-sm focus:ring-2 focus:ring-secondary focus:outline-none"
+                    placeholder="e.g., Nursing students evaluating..." />
+                </div>
+                <div>
+                  <label
+                    class="block font-label-sm text-label-sm text-on-surface-variant mb-1"
+                    >Image Credit (Optional)</label
+                  >
+                  <input
+                    type="text"
+                    id="imageCredit"
+                    class="w-full p-3 border border-outline-variant rounded-lg bg-surface-bright font-body-sm focus:ring-2 focus:ring-secondary focus:outline-none"
+                    placeholder="e.g., Clinical Archives" />
+                </div>
+              </div>
+              <!-- END ADD BLOCK -->
+
               <!-- Submit Button -->
               <button
                 type="submit"
                 id="submit-btn"
-                class="bg-blueberry hover:bg-[#004480] text-white font-bold py-3.5 px-6 rounded-xl transition-colors mt-4 flex items-center justify-center gap-2 shadow-md">
+                class="bg-secondary hover:bg-primary text-white font-bold py-3.5 px-6 rounded-xl transition-colors mt-4 flex items-center justify-center gap-2 shadow-md">
                 <span>Publish Article</span>
                 <span class="material-symbols-outlined text-sm">publish</span>
               </button>
