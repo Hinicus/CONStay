@@ -48,6 +48,21 @@
           </div>
         </div>
 
+        <!-- Admin Approval Panel (Hidden by default) -->
+        <div
+          id="admin-panel"
+          class="hidden mb-8 p-6 bg-surface-container-low rounded-xl border border-surface-dim">
+          <h2
+            class="font-title-sm text-title-sm text-primary mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-xl">group_add</span>
+            Pending Author Approvals
+          </h2>
+          <div id="pending-users-list" class="flex flex-col gap-3">
+            <!-- Pending users injected here -->
+            <p class="text-sm text-on-surface-variant font-bold">Loading...</p>
+          </div>
+        </div>
+
         <!-- JavaScript will inject the list of articles here -->
         <div id="articles-list" class="flex flex-col gap-4">
           <p class="text-on-surface-variant text-sm font-bold">
@@ -59,7 +74,7 @@
 
     <div id="footer-placeholder"></div>
     <script src="/components.js"></script>
-    <script src="/pages/admin/manage.js"></script>
+    <script type="module" src="/pages/admin/manage.js"></script>
     <script type="module" src="/pages/admin/auth-guard.js"></script>
   </body>
 </html>

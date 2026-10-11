@@ -1,6 +1,7 @@
 // firebase-client.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -19,3 +20,6 @@ const app = initializeApp(firebaseConfig);
 
 // Export the auth service so our other files can use it
 export const auth = getAuth(app);
+
+//Export the DB
+export const db = getFirestore(app);
