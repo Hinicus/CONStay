@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title> </title>
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <!-- Google Fonts: Newsreader (Serif) & Inter / Plus Jakarta Sans (Sans-serif) -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
@@ -154,7 +154,9 @@
             </figcaption>
           </figure>
           <!-- Article Lead Paragraph -->
-          <div id="article-content" class="prose max-w-none">
+          <div
+            id="article-content"
+            class="prose prose-lg max-w-none prose-ul:list-disc prose-ol:list-decimal prose-a:text-blueberry">
             <!-- JS will inject paragraphs here -->
           </div>
         </article>

@@ -165,6 +165,54 @@ app.get("/api/news/:id", async (req, res) => {
   }
 });
 
+// --- 4. DELETE Endpoint (Remove Article) ---
+app.delete("/api/news/:id", async (req, res) => {
+  try {
+    const articleId = req.params.id;
+    await db.collection("news").doc(articleId).delete();
+    res.status(200).json({ message: "Article deleted successfully." });
+  } catch (error) {
+    console.error("Error deleting article:", error);
+    res.status(500).json({ error: "Failed to delete article" });
+  }
+});
+
+// --- 5. PUT Endpoint (Update Article) ---
+app.put("/api/news/:id", upload.single("imageFile"), async (req, res) => {
+  try {
+    const articleId = req.params.id;
+    const { title, snippet, content, imageUrl, imageCaption, imageCredit } =
+      req.body;
+
+    if (!title || !content) {
+      return res.status(400).json({ error: "Title and content are required." });
+    }
+
+    // Prepare the updated fields (Notice we don't update authorId or the original date)
+    let updateData = {
+      title,
+      snippet: snippet || "",
+      content,
+      imageCaption: imageCaption || "",
+      imageCredit: imageCredit || "",
+    };
+
+    // Only update the image if the user uploaded a new file or pasted a new link
+    if (req.file) {
+      updateData.imageUrl = req.file.path; // New Cloudinary upload
+    } else if (imageUrl) {
+      updateData.imageUrl = imageUrl; // New text link
+    }
+
+    await db.collection("news").doc(articleId).update(updateData);
+
+    res.status(200).json({ message: "Article updated successfully!" });
+  } catch (error) {
+    console.error("Error updating article:", error);
+    res.status(500).json({ error: "Failed to update article" });
+  }
+});
+
 // --- Helper Function ---
 async function getAuthorName(authorId) {
   if (!authorId) return "Unknown Author";

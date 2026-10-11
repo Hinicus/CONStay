@@ -66,10 +66,7 @@ function renderNewsList(articles) {
   articles.forEach((article) => {
     htmlString += `
       <article class="p-space-lg bg-surface-container-lowest rounded-DEFAULT shadow-sm hover:shadow-md transition-shadow group flex flex-col h-full">
-        <div class="flex items-center justify-between gap-space-sm mb-space-xxs">
-          <span class="px-space-xs py-space-xxs rounded-full bg-secondary-fixed text-on-secondary-fixed font-caption text-caption uppercase">
-            Update
-          </span>
+        <div class="flex flex-row-reverse items-center justify-between gap-space-sm mb-space-xxs">
           <span class="font-caption text-caption text-on-surface-variant">${article.date}</span>
         </div>
         <h4 class="font-title-md text-title-md text-primary group-hover:text-secondary transition-colors mb-space-xs">
