@@ -1,30 +1,103 @@
 const express = require("express");
 const cors = require("cors");
+const multer = require("multer");
+require("dotenv").config();
 
-// 1. Use the new modular imports
 const { initializeApp, cert } = require("firebase-admin/app");
 const { getFirestore, FieldValue } = require("firebase-admin/firestore");
 
-// 2. Initialize Firebase
 const serviceAccount = require("./serviceAccountKey.json");
 
 initializeApp({
   credential: cert(serviceAccount),
 });
 
-// 3. Initialize Firestore
 const db = getFirestore();
 const app = express();
 
-// Middleware
+// --- Cloudinary Setup ---
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "constay-news",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+  },
+});
+const upload = multer({ storage: storage });
+
+// --- Middleware ---
 app.use(cors());
 app.use(express.json());
 
-// GET endpoint to fetch news articles
+// --- 1. POST Endpoint (Create Article) ---
+// Notice how upload.single("imageFile") is here, allowing us to catch the file!
+app.post("/api/news", upload.single("imageFile"), async (req, res) => {
+  try {
+    const {
+      title,
+      snippet,
+      content,
+      imageUrl,
+      imageCaption,
+      imageCredit,
+      authorId,
+    } = req.body;
+
+    if (!title || !content || !authorId) {
+      return res
+        .status(400)
+        .json({ error: "Title, content, and authorId are required." });
+    }
+
+    // Decide which image URL to save (File upload vs. Pasted Link)
+    let finalImageUrl = "";
+    if (req.file) {
+      finalImageUrl = req.file.path; // Cloudinary successfully uploaded the file
+    } else if (imageUrl) {
+      finalImageUrl = imageUrl; // The user pasted a web link
+    } else {
+      return res
+        .status(400)
+        .json({ error: "Please provide an image file or an image link." });
+    }
+
+    const newArticleRef = db.collection("news").doc();
+    const articleData = {
+      title,
+      snippet: snippet || "",
+      content,
+      imageUrl: finalImageUrl,
+      imageCaption: imageCaption || "",
+      imageCredit: imageCredit || "",
+      authorId,
+      date: FieldValue.serverTimestamp(),
+    };
+
+    await newArticleRef.set(articleData);
+
+    res.status(201).json({
+      message: "Article created successfully!",
+      id: newArticleRef.id,
+    });
+  } catch (error) {
+    console.error("Error creating article:", error);
+    res.status(500).json({ error: "Failed to create article" });
+  }
+});
+
+// --- 2. GET Endpoint (All Articles for Dashboard) ---
 app.get("/api/news", async (req, res) => {
   try {
     const newsRef = db.collection("news");
-    // Order by date descending and limit to 4 to match your frontend design (1 featured + 3 list items)
     const snapshot = await newsRef.orderBy("date", "desc").limit(4).get();
 
     if (snapshot.empty) {
@@ -32,11 +105,10 @@ app.get("/api/news", async (req, res) => {
     }
 
     let newsData = [];
-
     for (const doc of snapshot.docs) {
       const data = doc.data();
       const authorName = await getAuthorName(data.authorId);
-      // Convert Firestore Timestamp to a standard JavaScript Date string
+
       const formattedDate = data.date
         ? data.date.toDate().toLocaleDateString("en-US", {
             month: "short",
@@ -48,11 +120,10 @@ app.get("/api/news", async (req, res) => {
       newsData.push({
         id: doc.id,
         ...data,
-        date: formattedDate, // Override the raw timestamp with our formatted string
+        date: formattedDate,
         authorName: authorName,
       });
     }
-
     res.status(200).json(newsData);
   } catch (error) {
     console.error("Error fetching news:", error);
@@ -60,7 +131,7 @@ app.get("/api/news", async (req, res) => {
   }
 });
 
-// GET endpoint to fetch a single news article by ID
+// --- 3. GET Endpoint (Single Article) ---
 app.get("/api/news/:id", async (req, res) => {
   try {
     const articleId = req.params.id;
@@ -72,10 +143,8 @@ app.get("/api/news/:id", async (req, res) => {
     }
 
     const data = doc.data();
-
     const authorName = await getAuthorName(data.authorId);
 
-    // Format the date
     const formattedDate = data.date
       ? data.date.toDate().toLocaleDateString("en-US", {
           month: "short",
@@ -96,72 +165,22 @@ app.get("/api/news/:id", async (req, res) => {
   }
 });
 
-// POST endpoint to create a new article
-app.post("/api/news", async (req, res) => {
-  try {
-    // Extract the data from the incoming request body
-    const {
-      title,
-      snippet,
-      content,
-      imageUrl,
-      imageCaption,
-      imageCredit,
-      authorId,
-    } = req.body;
-
-    // Basic validation
-    if (!title || !content || !authorId) {
-      return res
-        .status(400)
-        .json({ error: "Title, content, and authorId are required." });
-    }
-
-    // Create a new document in the 'news' collection
-    const newArticleRef = db.collection("news").doc();
-
-    const articleData = {
-      title,
-      snippet: snippet || "",
-      content,
-      imageUrl: imageUrl || "",
-      imageCaption: imageCaption || "",
-      imageCredit: imageCredit || "",
-      authorId,
-      date: FieldValue.serverTimestamp(), // Automatically stamps the current time
-    };
-
-    await newArticleRef.set(articleData);
-
-    res.status(201).json({
-      message: "Article created successfully!",
-      id: newArticleRef.id,
-    });
-  } catch (error) {
-    console.error("Error creating article:", error);
-    res.status(500).json({ error: "Failed to create article" });
-  }
-});
-
-// Helper function to fetch an author's name
+// --- Helper Function ---
 async function getAuthorName(authorId) {
   if (!authorId) return "Unknown Author";
-
   try {
     const userRef = db.collection("users").doc(authorId);
     const userDoc = await userRef.get();
-
     if (userDoc.exists) {
       return userDoc.data().name || "Unknown Author";
     }
   } catch (error) {
     console.error("Error fetching author name:", error);
   }
-
   return "Unknown Author";
 }
 
-// Start the server
+// --- Start Server ---
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

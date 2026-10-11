@@ -14,6 +14,34 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   });
 
+  // --- NEW: Snippet Character Counter ---
+  const snippetInput = document.getElementById("snippet");
+  const snippetCounter = document.getElementById("snippet-counter");
+  snippetInput.addEventListener("input", () => {
+    snippetCounter.textContent = `${snippetInput.value.length} / 150`;
+  });
+
+  // --- NEW: Image Mode Toggle Logic ---
+  const imageModeRadios = document.getElementsByName("imageMode");
+  const uploadContainer = document.getElementById("upload-container");
+  const linkContainer = document.getElementById("link-container");
+  const imageFile = document.getElementById("imageFile");
+  const imageUrl = document.getElementById("imageUrl");
+
+  imageModeRadios.forEach((radio) => {
+    radio.addEventListener("change", (e) => {
+      if (e.target.value === "upload") {
+        uploadContainer.classList.remove("hidden");
+        linkContainer.classList.add("hidden");
+        imageUrl.value = ""; // Clear the link if they switch back
+      } else {
+        uploadContainer.classList.add("hidden");
+        linkContainer.classList.remove("hidden");
+        imageFile.value = ""; // Clear the file if they switch to link
+      }
+    });
+  });
+
   const form = document.getElementById("create-news-form");
   const messageDiv = document.getElementById("form-message");
 
@@ -40,6 +68,19 @@ document.addEventListener("DOMContentLoaded", () => {
       imageCredit: document.getElementById("imageCredit").value,
       authorId: document.getElementById("authorId").value, // Hardcoded for now
     };
+
+    // --- UPDATED: Append either the file OR the link based on the radio button ---
+    const selectedMode = document.querySelector(
+      'input[name="imageMode"]:checked',
+    ).value;
+    if (selectedMode === "upload" && imageFile.files.length > 0) {
+      formData.append("imageFile", imageFile.files[0]);
+    } else if (selectedMode === "link" && imageUrl.value) {
+      formData.append("imageUrl", imageUrl.value);
+    } else {
+      alert("Please provide an image file or a web link.");
+      return;
+    }
 
     try {
       // 2. Send the POST request to the backend
