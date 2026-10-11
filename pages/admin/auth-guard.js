@@ -52,6 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (logoutBtn) {
     logoutBtn.addEventListener("click", async () => {
       try {
+        //Wipe the saved roles before logging out
+        sessionStorage.clear();
+
         await signOut(auth);
       } catch (error) {
         console.error("Error signing out:", error);
