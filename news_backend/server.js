@@ -84,6 +84,7 @@ app.post(
         imageCaption,
         imageCredit,
         authorId,
+        authorName,
       } = req.body;
 
       if (!title || !content || !authorId) {
@@ -113,6 +114,7 @@ app.post(
         imageCaption: imageCaption || "",
         imageCredit: imageCredit || "",
         authorId,
+        authorName: authorName || "CON Contributor",
         date: FieldValue.serverTimestamp(),
       };
 
@@ -132,12 +134,10 @@ app.post(
 // Public GET route with Pagination
 app.get("/api/news", async (req, res) => {
   try {
-    // 1. Figure out which page the user is asking for (default to 1)
     const page = parseInt(req.query.page) || 1;
-    const limitCount = 6; // How many articles per page
-    const offsetCount = (page - 1) * limitCount; // How many articles to skip
+    const limitCount = 6;
+    const offsetCount = (page - 1) * limitCount;
 
-    // 2. Query Firestore with limits
     const snapshot = await db
       .collection("news")
       .orderBy("date", "desc")
@@ -147,7 +147,25 @@ app.get("/api/news", async (req, res) => {
 
     const articles = [];
     snapshot.forEach((doc) => {
-      articles.push({ id: doc.id, ...doc.data() });
+      const data = doc.data();
+
+      // 1. FIX THE DATE: Convert Firestore Timestamp to readable text
+      let formattedDate = data.date;
+      if (data.date && typeof data.date.toDate === "function") {
+        formattedDate = data.date.toDate().toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+
+      articles.push({
+        id: doc.id,
+        ...data,
+        // 2. Overwrite the broken data with our fixed versions
+        date: formattedDate,
+        authorName: data.authorName || "CON Contributor", // Fallback for missing names
+      });
     });
 
     res.json(articles);
@@ -157,7 +175,7 @@ app.get("/api/news", async (req, res) => {
   }
 });
 
-// --- 3. GET Endpoint (Single Article) ---
+// --- GET Endpoint (Single Article) ---
 app.get("/api/news/:id", async (req, res) => {
   try {
     const articleId = req.params.id;
