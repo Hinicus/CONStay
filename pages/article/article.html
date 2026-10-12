@@ -17,52 +17,9 @@
       rel="stylesheet" />
     <!-- Global CSS config -->
     <link href="./global.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../../tailwind-config.js"></script>
+    <link rel="stylesheet" href="/pages/article/article.css" />
 
-    <style>
-      body {
-        background-color: #fff9ec;
-        color: #12284b;
-        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
-      }
-      .serif-heading {
-        font-family: "Newsreader", Georgia, serif;
-      }
-      .prose p {
-        margin-bottom: 1.5rem;
-        line-height: 1.85;
-        font-size: 1.125rem;
-        color: #2c3e50;
-      }
-      .prose h2 {
-        font-family: "Newsreader", Georgia, serif;
-        font-size: 1.875rem;
-        font-weight: 700;
-        color: #12284b;
-        margin-top: 2.5rem;
-        margin-bottom: 1rem;
-        letter-spacing: -0.01em;
-      }
-      .prose h3 {
-        font-family: "Newsreader", Georgia, serif;
-        font-size: 1.45rem;
-        font-weight: 600;
-        color: #12284b;
-        margin-top: 2rem;
-        margin-bottom: 0.75rem;
-      }
-      .prose blockquote {
-        border-left: 4px solid #0055a0;
-        padding-left: 1.5rem;
-        margin: 2rem 0;
-        font-style: italic;
-        color: #12284b;
-        font-family: "Newsreader", Georgia, serif;
-        font-size: 1.35rem;
-        line-height: 1.6;
-      }
-    </style>
+    <script src="../../tailwind-config.js"></script>
   </head>
   <body
     class="min-h-screen flex flex-col antialiased selection:bg-clear-skies selection:text-deep-ocean">
@@ -131,8 +88,6 @@
     <!-- MAIN ARTICLE CONTAINER WITH SIDEBAR (Layout consistent with wireframe & design system) -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14 flex-1">
       <div class="grid grid-cols-1 gap-8 xl:gap-12 items-start">
-        <!-- LEFT SIDEBAR: Table of Contents, Share Tools, & Quick Reference (Desktop & responsive) -->
-
         <!-- CENTER / MAIN CONTENT: Article Body -->
         <article
           class="bg-white rounded-3xl p-6 sm:p-10 lg:p-12 border border-[#e0dac9] shadow-sm order-1 lg:order-2 w-full">
