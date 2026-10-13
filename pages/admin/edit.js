@@ -1,3 +1,5 @@
+import { auth } from "/firebase-client.js";
+
 document.addEventListener("DOMContentLoaded", async () => {
   // 1. Get the article ID from the URL (passed from manage.html)
   const urlParams = new URLSearchParams(window.location.search);
@@ -43,16 +45,27 @@ document.addEventListener("DOMContentLoaded", async () => {
   const uploadContainer = document.getElementById("upload-container");
   const linkContainer = document.getElementById("link-container");
   const imageFile = document.getElementById("imageFile");
+  const imageMetaContainer = document.getElementById("image-meta-container"); // NEW
 
   imageModeRadios.forEach((radio) => {
     radio.addEventListener("change", (e) => {
       if (e.target.value === "upload") {
         uploadContainer.classList.remove("hidden");
         linkContainer.classList.add("hidden");
-      } else {
+        imageMetaContainer.classList.remove("hidden");
+      } else if (e.target.value === "link") {
         uploadContainer.classList.add("hidden");
         linkContainer.classList.remove("hidden");
-        imageFile.value = ""; // Clear file if they switch back to link
+        imageMetaContainer.classList.remove("hidden");
+        imageFile.value = "";
+      } else if (e.target.value === "none") {
+        uploadContainer.classList.add("hidden");
+        linkContainer.classList.add("hidden");
+        imageMetaContainer.classList.add("hidden");
+        imageFile.value = "";
+        imageUrlInput.value = "";
+        imageCaptionInput.value = "";
+        imageCreditInput.value = "";
       }
     });
   });
@@ -72,7 +85,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     imageCreditInput.value = article.imageCredit || "";
 
     // Populate the image (defaults to keeping the existing Cloudinary link)
-    imageUrlInput.value = article.imageUrl;
+    if (article.imageUrl) {
+      imageUrlInput.value = article.imageUrl;
+    } else {
+      // If the article has no image, toggle the UI to "No Image" mode
+      document.querySelector('input[name="imageMode"][value="none"]').click();
+    }
 
     // Populate Quill editor safely
     if (article.content) {
@@ -104,12 +122,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const selectedMode = document.querySelector(
       'input[name="imageMode"]:checked',
     ).value;
+
     if (selectedMode === "upload" && imageFile.files.length > 0) {
       formData.append("imageFile", imageFile.files[0]);
     } else if (selectedMode === "link" && imageUrlInput.value) {
       formData.append("imageUrl", imageUrlInput.value);
+    } else if (selectedMode === "none") {
+      formData.append("imageUrl", ""); // Explicitly wipe the old image!
     } else {
-      alert("Please provide an image file or a web link.");
+      alert("Please provide an image file, a web link, or select 'No Image'.");
       return;
     }
 
@@ -117,12 +138,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     messageDiv.className =
       "mt-4 p-4 rounded-lg text-sm font-bold bg-[#f5ede0] text-[#12284b] block";
 
+    if (!auth.currentUser) {
+      alert("Authentication error: Please refresh the page.");
+      return;
+    }
+    const token = await auth.currentUser.getIdToken();
+
     try {
       // Use PUT method and target the specific article ID
       const response = await fetch(
         `http://localhost:3000/api/news/${articleId}`,
         {
           method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           body: formData,
         },
       );

@@ -99,10 +99,6 @@ app.post(
         finalImageUrl = req.file.path; // Cloudinary successfully uploaded the file
       } else if (imageUrl) {
         finalImageUrl = imageUrl; // The user pasted a web link
-      } else {
-        return res
-          .status(400)
-          .json({ error: "Please provide an image file or an image link." });
       }
 
       const newArticleRef = db.collection("news").doc();

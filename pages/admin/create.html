@@ -108,6 +108,16 @@
             <div class="flex flex-col gap-5">
               <!-- Toggle Buttons -->
               <div class="flex items-center gap-6">
+                <!-- No Image Option -->
+                <label
+                  class="flex items-center gap-2 text-sm font-bold cursor-pointer">
+                  <input
+                    type="radio"
+                    name="imageMode"
+                    value="none"
+                    class="w-4 h-4 text-secondary focus:ring-secondary border-outline-variant" />
+                  <span>No Image</span>
+                </label>
                 <label
                   class="flex items-center gap-2 text-sm font-bold cursor-pointer">
                   <input
@@ -148,7 +158,9 @@
               </div>
 
               <!-- ADD THIS BLOCK BACK -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div
+                id="image-meta-container"
+                class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <div>
                   <label
                     class="block font-label-sm text-label-sm text-on-surface-variant mb-1"

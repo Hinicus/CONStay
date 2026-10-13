@@ -16,17 +16,18 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   });
 
-  // --- NEW: Snippet Character Counter ---
+  // --- Snippet Character Counter ---
   const snippetInput = document.getElementById("snippet");
   const snippetCounter = document.getElementById("snippet-counter");
   snippetInput.addEventListener("input", () => {
     snippetCounter.textContent = `${snippetInput.value.length} / 150`;
   });
 
-  // --- NEW: Image Mode Toggle Logic ---
+  // --- Image Mode Toggle Logic ---
   const imageModeRadios = document.getElementsByName("imageMode");
   const uploadContainer = document.getElementById("upload-container");
   const linkContainer = document.getElementById("link-container");
+  const imageMetaContainer = document.getElementById("image-meta-container");
   const imageFile = document.getElementById("imageFile");
   const imageUrl = document.getElementById("imageUrl");
 
@@ -35,11 +36,22 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.target.value === "upload") {
         uploadContainer.classList.remove("hidden");
         linkContainer.classList.add("hidden");
-        imageUrl.value = ""; // Clear the link if they switch back
-      } else {
+        imageMetaContainer.classList.remove("hidden");
+        imageUrl.value = "";
+      } else if (e.target.value === "link") {
         uploadContainer.classList.add("hidden");
         linkContainer.classList.remove("hidden");
-        imageFile.value = ""; // Clear the file if they switch to link
+        imageMetaContainer.classList.remove("hidden");
+        imageFile.value = "";
+      } else if (e.target.value === "none") {
+        // Hide everything and clear values
+        uploadContainer.classList.add("hidden");
+        linkContainer.classList.add("hidden");
+        imageMetaContainer.classList.add("hidden");
+        imageFile.value = "";
+        imageUrl.value = "";
+        document.getElementById("imageCaption").value = "";
+        document.getElementById("imageCredit").value = "";
       }
     });
   });
@@ -85,8 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("imageFile", imageFile.files[0]);
     } else if (selectedMode === "link" && imageUrl.value) {
       formData.append("imageUrl", imageUrl.value);
+    } else if (selectedMode === "none") {
+      // Do nothing! Let the form submit without an image attached.
     } else {
-      alert("Please provide an image file or a web link.");
+      alert("Please provide an image file, a web link, or select 'No Image'.");
       return;
     }
 
