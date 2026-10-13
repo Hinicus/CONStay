@@ -259,8 +259,8 @@ app.put(
       // Only update the image if the user uploaded a new file or pasted a new link
       if (req.file) {
         updateData.imageUrl = req.file.path; // New Cloudinary upload
-      } else if (imageUrl) {
-        updateData.imageUrl = imageUrl; // New text link
+      } else if (imageUrl !== undefined) {
+        updateData.imageUrl = imageUrl; // Updates with a new link OR clears it if ""
       }
 
       await db.collection("news").doc(articleId).update(updateData);

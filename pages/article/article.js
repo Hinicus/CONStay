@@ -35,8 +35,14 @@ async function fetchSingleArticle() {
     }
 
     const imgEl = document.getElementById("article-image");
-    imgEl.src = article.imageUrl || "https://via.placeholder.com/1200x600";
-    imgEl.alt = article.title;
+    if (article.imageUrl) {
+      // If an image exists, set the source and alt text
+      imgEl.src = article.imageUrl;
+      imgEl.alt = article.title;
+    } else {
+      // If there is no image, find the parent <figure> tag and hide it
+      imgEl.closest("figure").classList.add("hidden");
+    }
 
     const creditEl = document.getElementById("image-credit");
     if (article.imageCredit && article.imageCredit.trim() !== "") {
