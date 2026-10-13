@@ -28,29 +28,23 @@ async function fetchNews(page = 1) {
     if (!response.ok) throw new Error("Failed to fetch news");
 
     const newsData = await response.json();
+    const isFirstPage = page === 1;
 
-    if (page === 1) {
-      // PAGE 1 LOGIC: Split between Featured (1st) and List (the rest)
-      if (newsData && newsData.length > 0) {
-        renderFeaturedNews(newsData[0]);
+    if (newsData && newsData.length > 0) {
+      // THE FIX: The 1st article of EVERY loaded batch becomes a featured article
+      renderFeaturedNews(newsData[0], isFirstPage);
 
-        if (newsData.length > 1) {
-          // Pass 'true' to completely replace the container's HTML
-          renderNewsList(newsData.slice(1), true);
-        } else {
-          document.getElementById("news-list-container").innerHTML = "";
-        }
-      } else {
-        document.getElementById("featured-news-container").innerHTML =
-          "<p class='p-space-xl'>No dispatches published yet.</p>";
+      // The rest of the batch (articles 2-6) go to the right-hand list
+      if (newsData.length > 1) {
+        renderNewsList(newsData.slice(1), isFirstPage);
+      } else if (isFirstPage) {
         document.getElementById("news-list-container").innerHTML = "";
       }
-    } else {
-      // PAGE 2+ LOGIC: Everything goes straight to the list
-      if (newsData && newsData.length > 0) {
-        // Pass 'false' to append the new articles to the bottom
-        renderNewsList(newsData, false);
-      }
+    } else if (isFirstPage) {
+      // Handle completely empty database
+      document.getElementById("featured-news-container").innerHTML =
+        "<p class='p-space-xl'>No dispatches published yet.</p>";
+      document.getElementById("news-list-container").innerHTML = "";
     }
 
     // 2. Button Visibility Logic (Assuming limitCount = 6 in Express)
@@ -73,9 +67,10 @@ async function fetchNews(page = 1) {
   }
 }
 
-function renderFeaturedNews(article) {
+// Updated to accept the 'replace' parameter so multiple featured cards can stack
+function renderFeaturedNews(article, replace = true) {
   const container = document.getElementById("featured-news-container");
-  container.innerHTML = `
+  const htmlString = `
     <div class="bg-surface-container-lowest rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow group h-full flex flex-col">
       <div class="relative w-full aspect-[16/10] overflow-hidden bg-surface-container">
         <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
@@ -107,9 +102,14 @@ function renderFeaturedNews(article) {
       </div>
     </div>
   `;
+
+  if (replace) {
+    container.innerHTML = htmlString;
+  } else {
+    container.insertAdjacentHTML("beforeend", htmlString);
+  }
 }
 
-// (Updated to accept the 'replace' parameter for pagination)
 function renderNewsList(articles, replace = true) {
   const container = document.getElementById("news-list-container");
   let htmlString = "";
@@ -134,7 +134,6 @@ function renderNewsList(articles, replace = true) {
     `;
   });
 
-  // If page 1, overwrite the container. If page 2+, append it!
   if (replace) {
     container.innerHTML = htmlString;
   } else {
