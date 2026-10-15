@@ -135,7 +135,7 @@ app.get("/api/news", async (req, res) => {
   try {
     const fetchAll = req.query.all === "true";
     const page = parseInt(req.query.page) || 1;
-    const limitCount = 6;
+    const limitCount = 4;
     const offsetCount = (page - 1) * limitCount;
 
     let queryRef = db.collection("news").orderBy("date", "desc");

@@ -47,8 +47,8 @@ async function fetchNews(page = 1) {
       document.getElementById("news-list-container").innerHTML = "";
     }
 
-    // 2. Button Visibility Logic (Assuming limitCount = 6 in Express)
-    if (newsData.length < 6) {
+    // 2. Button Visibility Logic
+    if (newsData.length < 4) {
       // Reached the end of the database
       if (loadMoreBtn) loadMoreBtn.classList.add("hidden");
     } else {
