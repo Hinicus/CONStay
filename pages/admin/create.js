@@ -94,6 +94,16 @@ document.addEventListener("DOMContentLoaded", () => {
     ).value;
 
     if (selectedMode === "upload" && imageFile.files.length > 0) {
+      const file = imageFile.files[0];
+      const maxSizeBytes = 5 * 1024 * 1024; // 10MB Cloudinary limit
+
+      if (file.size > maxSizeBytes) {
+        const fileSizeMB = (file.size / (1024 * 1024)).toFixed(1);
+        messageDiv.textContent = `Error: Image is too large (${fileSizeMB}MB). Maximum allowed size is 5MB.`;
+        messageDiv.className =
+          "mt-4 p-4 rounded-lg text-sm font-bold bg-[#ffdad6] text-[#93000a] block";
+        return;
+      }
       formData.append("imageFile", imageFile.files[0]);
     } else if (selectedMode === "link" && imageUrl.value) {
       formData.append("imageUrl", imageUrl.value);
@@ -132,7 +142,15 @@ document.addEventListener("DOMContentLoaded", () => {
         body: formData,
       });
 
-      const result = await response.json();
+      const responseText = await response.text();
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (err) {
+        throw new Error(
+          `Server returned an invalid response (${response.status}). Check server console.`,
+        );
+      }
 
       if (response.ok) {
         messageDiv.textContent =

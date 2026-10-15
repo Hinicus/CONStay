@@ -63,7 +63,10 @@ const storage = new CloudinaryStorage({
     allowed_formats: ["jpg", "jpeg", "png", "webp"],
   },
 });
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+});
 
 // --- Middleware ---
 app.use(cors());
@@ -371,6 +374,22 @@ async function getAuthorName(authorId) {
   }
   return "Unknown Author";
 }
+
+// --- Global Error Handler (Catches Multer / Cloudinary Upload Errors) ---
+app.use((err, req, res, next) => {
+  console.error("Upload/Server Error:", err);
+
+  // Format Cloudinary's byte message into something friendly if it's a size issue
+  if (err.message && err.message.includes("File size too large")) {
+    return res.status(400).json({
+      error: "Image file is too large. Maximum allowed size is 5MB.",
+    });
+  }
+
+  res.status(err.http_code || 500).json({
+    error: err.message || "An unexpected error occurred during upload.",
+  });
+});
 
 // --- Start Server ---
 const PORT = process.env.PORT || 3000;
