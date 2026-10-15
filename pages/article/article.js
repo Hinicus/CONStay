@@ -66,9 +66,77 @@ async function fetchSingleArticle() {
     } else {
       contentContainer.innerHTML = "<p>No content available.</p>";
     }
+
+    // 5. Load other news
+    fetchOtherNews(articleId);
   } catch (error) {
     console.error("Error:", error);
     document.getElementById("article-title").textContent =
       "Error loading the article.";
+  }
+}
+
+async function fetchOtherNews(currentArticleId) {
+  const section = document.getElementById("other-news-section");
+  const container = document.getElementById("other-news-container");
+
+  try {
+    // Fetch the first batch of recent news from Express
+    const response = await fetch("http://localhost:3000/api/news?page=1");
+    if (!response.ok) return;
+
+    const articles = await response.json();
+
+    // Filter out the article currently being read, and take up to 3 items
+    const otherArticles = articles
+      .filter((item) => item.id !== currentArticleId)
+      .slice(0, 3);
+
+    // If there are no other articles in the database yet, keep the section hidden
+    if (otherArticles.length === 0) return;
+
+    container.innerHTML = otherArticles
+      .map(
+        (item) => `
+        <a href="/pages/article/article.html?id=${item.id}" 
+           class="bg-white rounded-2xl border border-[#e0dac9] overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group hover:-translate-y-1">
+          ${
+            item.imageUrl
+              ? `<div class="aspect-[16/10] w-full overflow-hidden bg-slate-900">
+                   <img src="${item.imageUrl}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                 </div>`
+              : ""
+          }
+          <div class="p-6 flex flex-col flex-1 justify-between">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
+                ${item.date}
+              </span>
+              <h3 class="serif-heading text-xl font-bold text-[#12284b] group-hover:text-[#0055a0] transition-colors mb-2 line-clamp-2">
+                ${item.title}
+              </h3>
+              <p class="text-sm text-slate-600 line-clamp-3 mb-4">
+                ${item.snippet || ""}
+              </p>
+            </div>
+            <div class="pt-4 border-t border-[#e0dac9]/60 flex items-center justify-between mt-auto">
+              <span class="text-xs font-bold text-[#12284b] flex items-center gap-1">
+                <span class="material-symbols-outlined text-[#438bc4] text-sm">person</span>
+                ${item.authorName}
+              </span>
+              <span class="material-symbols-outlined text-sm text-[#0055a0] group-hover:translate-x-1 transition-transform">
+                arrow_forward
+              </span>
+            </div>
+          </div>
+        </a>
+      `,
+      )
+      .join("");
+
+    // Reveal the section once cards are rendered
+    section.classList.remove("hidden");
+  } catch (error) {
+    console.error("Failed to load other news:", error);
   }
 }
