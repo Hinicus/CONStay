@@ -208,25 +208,39 @@ app.get("/api/news/:id", async (req, res) => {
 });
 
 // --- 4. DELETE Endpoint (Remove Article) ---
-app.delete("/api/news/:id", verifyToken, async (req, res) => {
-  try {
-    const articleId = req.params.id;
-    await db.collection("news").doc(articleId).delete();
-    res.status(200).json({ message: "Article deleted successfully." });
-  } catch (error) {
-    console.error("Error deleting article:", error);
-    res.status(500).json({ error: "Failed to delete article" });
-  }
-});
+app.delete(
+  "/api/news/:id",
+  verifyToken,
+  verifyArticleOwnership,
+  async (req, res) => {
+    try {
+      const articleId = req.params.id;
+
+      // 1. If the article had a Cloudinary image, delete it from storage
+      if (req.articleData && req.articleData.imageUrl) {
+        await deleteCloudinaryImage(req.articleData.imageUrl);
+      }
+
+      // 2. Delete the article document from Firestore
+      await db.collection("news").doc(articleId).delete();
+      res.status(200).json({ message: "Article deleted successfully." });
+    } catch (error) {
+      console.error("Error deleting article:", error);
+      res.status(500).json({ error: "Failed to delete article" });
+    }
+  },
+);
 
 // --- 5. PUT Endpoint (Update Article) ---
 app.put(
   "/api/news/:id",
   verifyToken,
+  verifyArticleOwnership,
   upload.single("imageFile"),
   async (req, res) => {
     try {
       const articleId = req.params.id;
+      const oldImageUrl = req.articleData ? req.articleData.imageUrl : "";
       const {
         title,
         snippet,
@@ -243,7 +257,6 @@ app.put(
           .json({ error: "Title and content are required." });
       }
 
-      // Prepare the updated fields (Notice we don't update authorId or the original date)
       let updateData = {
         title,
         snippet: snippet || "",
@@ -258,11 +271,19 @@ app.put(
         }),
       };
 
-      // Only update the image if the user uploaded a new file or pasted a new link
+      // Handle image updates and old Cloudinary cleanup
       if (req.file) {
-        updateData.imageUrl = req.file.path; // New Cloudinary upload
+        // User uploaded a brand new file -> delete the old Cloudinary image
+        if (oldImageUrl) {
+          await deleteCloudinaryImage(oldImageUrl);
+        }
+        updateData.imageUrl = req.file.path;
       } else if (imageUrl !== undefined) {
-        updateData.imageUrl = imageUrl; // Updates with a new link OR clears it if ""
+        // User switched to "No Image" ("") or pasted a different link -> delete old Cloudinary image
+        if (oldImageUrl && imageUrl !== oldImageUrl) {
+          await deleteCloudinaryImage(oldImageUrl);
+        }
+        updateData.imageUrl = imageUrl;
       }
 
       await db.collection("news").doc(articleId).update(updateData);
@@ -276,6 +297,67 @@ app.put(
 );
 
 // --- Helper Function ---
+// --- Helper: Delete Image from Cloudinary ---
+async function deleteCloudinaryImage(imageUrl) {
+  // Ignore empty strings or external web links not hosted on our Cloudinary
+  if (!imageUrl || !imageUrl.includes("res.cloudinary.com")) return;
+
+  try {
+    // Extract "constay-news/filename" without the file extension (.jpg, .png, etc.)
+    const match = imageUrl.match(/constay-news\/[^.]+/);
+    if (match && match[0]) {
+      const publicId = match[0];
+      await cloudinary.uploader.destroy(publicId);
+      console.log(`Deleted old Cloudinary image: ${publicId}`);
+    }
+  } catch (error) {
+    console.error("Failed to delete image from Cloudinary:", error);
+  }
+}
+
+// --- Middleware: Verify Article Ownership or Admin Status ---
+async function verifyArticleOwnership(req, res, next) {
+  try {
+    const articleId = req.params.id;
+    const articleRef = db.collection("news").doc(articleId);
+    const articleDoc = await articleRef.get();
+
+    if (!articleDoc.exists) {
+      return res.status(404).json({ error: "Article not found." });
+    }
+
+    const articleData = articleDoc.data();
+    const requesterUid = req.user.uid; // Attached earlier by verifyToken
+
+    // 1. Check if the requester is the original author of the article
+    const isOwner = articleData.authorId === requesterUid;
+
+    // 2. If not the owner, check Firestore to see if they are an Admin
+    let isAdmin = false;
+    if (!isOwner) {
+      const userDoc = await db.collection("users").doc(requesterUid).get();
+      if (userDoc.exists && userDoc.data().isAdmin === true) {
+        isAdmin = true;
+      }
+    }
+
+    // 3. Reject if they are neither the author nor an admin
+    if (!isOwner && !isAdmin) {
+      return res.status(403).json({
+        error:
+          "Forbidden: You only have permission to modify your own articles.",
+      });
+    }
+
+    // Attach the existing article data so the route doesn't have to fetch it again
+    req.articleData = articleData;
+    next();
+  } catch (error) {
+    console.error("Ownership verification error:", error);
+    return res.status(500).json({ error: "Failed to verify permissions." });
+  }
+}
+
 async function getAuthorName(authorId) {
   if (!authorId) return "Unknown Author";
   try {
