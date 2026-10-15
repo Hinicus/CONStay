@@ -55,7 +55,8 @@ async function fetchSingleArticle() {
     const captionEl = document.getElementById("image-caption");
     if (article.imageCaption && article.imageCaption.trim() !== "") {
       captionEl.textContent = article.imageCaption;
-      captionContainer.classList.remove("hidden"); // Reveal the container
+      captionContainer.classList.remove("hidden");
+      captionContainer.classList.add("flex");
     }
 
     // 4. Format the content

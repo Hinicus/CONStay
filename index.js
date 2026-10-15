@@ -71,11 +71,15 @@ async function fetchNews(page = 1) {
 function renderFeaturedNews(article, replace = true) {
   const container = document.getElementById("featured-news-container");
   const htmlString = `
-    <div class="bg-surface-container-lowest rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow group h-full flex flex-col">
-      <div class="relative w-full aspect-[16/10] overflow-hidden bg-surface-container">
-        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-             src="${article.imageUrl || "https://via.placeholder.com/800x500"}" alt="${article.title}" />
-      </div>
+<div class="bg-surface-container-lowest rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow group h-full flex flex-col">
+      ${
+        article.imageUrl
+          ? `<div class="relative w-full aspect-[16/10] overflow-hidden bg-surface-container">
+               <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    src="${article.imageUrl}" alt="${article.title}" />
+             </div>`
+          : ""
+      }
       <div class="p-space-xl flex flex-col justify-between flex-grow">
         <div>
           <div class="flex items-center gap-space-sm text-on-surface-variant font-caption text-caption uppercase tracking-wider mb-space-xs">

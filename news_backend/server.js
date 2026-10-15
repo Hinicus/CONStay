@@ -130,17 +130,19 @@ app.post(
 // Public GET route with Pagination
 app.get("/api/news", async (req, res) => {
   try {
+    const fetchAll = req.query.all === "true";
     const page = parseInt(req.query.page) || 1;
     const limitCount = 6;
     const offsetCount = (page - 1) * limitCount;
 
-    const snapshot = await db
-      .collection("news")
-      .orderBy("date", "desc")
-      .offset(offsetCount)
-      .limit(limitCount)
-      .get();
+    let queryRef = db.collection("news").orderBy("date", "desc");
 
+    // Only apply pagination limits if '?all=true' is NOT passed
+    if (!fetchAll) {
+      queryRef = queryRef.offset(offsetCount).limit(limitCount);
+    }
+
+    const snapshot = await queryRef.get();
     const articles = [];
     snapshot.forEach((doc) => {
       const data = doc.data();

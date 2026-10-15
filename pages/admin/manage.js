@@ -30,7 +30,7 @@ async function fetchManageArticles() {
   }
 
   try {
-    const response = await fetch("http://localhost:3000/api/news");
+    const response = await fetch("http://localhost:3000/api/news?all=true");
     const articles = await response.json();
 
     if (articles.length === 0) {
