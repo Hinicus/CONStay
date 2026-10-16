@@ -1,4 +1,7 @@
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 //NEW IMPORTS
 import {
   doc,
@@ -27,6 +30,57 @@ document.addEventListener("DOMContentLoaded", () => {
   const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
+
+  // Forgot password
+  const forgotPasswordBtn = document.getElementById("forgot-password-btn");
+
+  if (forgotPasswordBtn) {
+    forgotPasswordBtn.addEventListener("click", async () => {
+      const email = emailInput.value.trim();
+
+      // 1. Ensure the user typed their email into the email box first
+      if (!email) {
+        messageDiv.textContent =
+          "Please enter your email address in the email field first, then click 'Forgot Password?'.";
+        messageDiv.className =
+          "mt-2 p-3 rounded-lg text-sm font-bold bg-[#ffdad6] text-[#93000a] block";
+        emailInput.focus();
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        messageDiv.textContent = "Please enter a valid email address.";
+        messageDiv.className =
+          "mt-2 p-3 rounded-lg text-sm font-bold bg-[#ffdad6] text-[#93000a] block";
+        emailInput.focus();
+        return;
+      }
+
+      messageDiv.textContent = "Sending password reset link...";
+      messageDiv.className =
+        "mt-2 p-3 rounded-lg text-sm font-bold bg-[#f5ede0] text-[#12284b] block";
+
+      try {
+        // 2. Trigger Firebase's password reset email
+        await sendPasswordResetEmail(auth, email);
+
+        messageDiv.textContent =
+          "If an account exists for this email, a password reset link has been sent. Please check your inbox and spam folder.";
+        messageDiv.className =
+          "mt-2 p-3 rounded-lg text-sm font-bold bg-[#d7e2ff] text-[#021b3d] block";
+      } catch (error) {
+        console.error("Password Reset Error:", error);
+        let errorMsg = "Failed to send reset email. Please try again.";
+        if (error.code === "auth/too-many-requests") {
+          errorMsg =
+            "Too many requests. Please wait a few minutes and try again.";
+        }
+        messageDiv.textContent = errorMsg;
+        messageDiv.className =
+          "mt-2 p-3 rounded-lg text-sm font-bold bg-[#ffdad6] text-[#93000a] block";
+      }
+    });
+  }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
