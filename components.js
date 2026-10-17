@@ -38,8 +38,8 @@ const adminRibbonHTML = isLoggedIn
       <div class="flex items-center gap-2 sm:gap-3 ml-auto">
         ${
           isArticlePage
-            ? `<a href="/pages/admin/edit.html?id=${currentArticleId}" 
-                  class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-tertiary-fixed-dim font-bold transition-colors">
+            ? `<a id="ribbon-edit-btn" href="/pages/admin/edit.html?id=${currentArticleId}" 
+                  class="hidden items-center gap-1 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-tertiary-fixed-dim font-bold transition-colors">
                  <span class="material-symbols-outlined text-[15px]">edit_document</span>
                  <span>Edit This Article</span>
                </a>`

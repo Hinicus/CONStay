@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionStorage.clear();
 
         await signOut(auth);
+        window.location.replace("/pages/admin/login.html");
       } catch (error) {
         console.error("Error signing out:", error);
       }

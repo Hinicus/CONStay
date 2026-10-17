@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", fetchManageArticles);
 async function fetchManageArticles() {
   const listContainer = document.getElementById("articles-list");
   const currentUserId = sessionStorage.getItem("currentUserId");
-  const userRole = sessionStorage.getItem("userRole");
-  const userName = sessionStorage.getItem("userName");
+  const userRole = sessionStorage.getItem("userRole") || "author";
+  const userName = sessionStorage.getItem("userName") || "Contributor";
 
   // Greeting
   document.getElementById("user-greeting").textContent =
@@ -96,9 +96,16 @@ window.deleteArticle = async function (id) {
   const isConfirmed = confirm(
     "Are you sure you want to permanently delete this article? This cannot be undone.",
   );
-  // Get tokens
-  const token = await auth.currentUser.getIdToken();
+
   if (!isConfirmed) return;
+
+  if (!auth.currentUser) {
+    alert("Authentication error: Please refresh the page.");
+    return;
+  }
+
+  // get token
+  const token = await auth.currentUser.getIdToken();
 
   try {
     // 2. Send the DELETE request to Express

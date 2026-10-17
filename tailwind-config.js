@@ -52,6 +52,7 @@ tailwind.config = {
         "surface-bright": "#fff9ec",
         "deep-ocean": "#12284b",
         "clear-skies": "#8cc1e9",
+        blueberry: "#0055a0",
       },
       borderRadius: {
         DEFAULT: "1rem",
@@ -70,7 +71,6 @@ tailwind.config = {
         "gutter-mobile": "1rem",
         "space-sm": "0.75rem",
         "margin-tablet": "2rem",
-        "space-2xl": "3xl",
         "space-2xl": "3rem",
         "space-xxs": "0.25rem",
         "space-xs": "0.5rem",

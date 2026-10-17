@@ -18,6 +18,18 @@ async function fetchSingleArticle() {
 
     const article = await response.json();
 
+    // Edit the article page if you are an admin or author
+    const ribbonEditBtn = document.getElementById("ribbon-edit-btn");
+    const currentUserId = sessionStorage.getItem("currentUserId");
+    const userRole = sessionStorage.getItem("userRole");
+    if (
+      ribbonEditBtn &&
+      (userRole === "admin" || article.authorId === currentUserId)
+    ) {
+      ribbonEditBtn.classList.remove("hidden");
+      ribbonEditBtn.classList.add("inline-flex");
+    }
+
     // 3. Update the page title and HTML elements
     document.title = `${article.title} - CONStay`;
     document.getElementById("article-title").textContent = article.title;

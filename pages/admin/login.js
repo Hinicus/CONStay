@@ -117,15 +117,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
       //NEW: Fetch their role and save it BEFORE redirecting
       const userSnap = await getDoc(doc(db, "users", user.uid));
-      if (userSnap.exists()) {
-        const userData = userSnap.data();
-        sessionStorage.setItem("currentUserId", user.uid);
-        sessionStorage.setItem(
-          "userRole",
-          userData.isAdmin ? "admin" : "author",
-        );
-        sessionStorage.setItem("userName", userData.name);
+      if (!userSnap.exists()) {
+        await auth.signOut();
+        messageDiv.textContent = "Error: User profile not found.";
+        messageDiv.className =
+          "mt-2 p-3 rounded-lg text-sm font-bold bg-[#ffdad6] text-[#93000a] block";
+        return;
       }
+
+      const userData = userSnap.data();
+      if (userData.approvalStatus !== "approved") {
+        await auth.signOut();
+        messageDiv.textContent = `Access denied. Your account status is: ${userData.approvalStatus}.`;
+        messageDiv.className =
+          "mt-2 p-3 rounded-lg text-sm font-bold bg-[#ffdad6] text-[#93000a] block";
+        return;
+      }
+
+      sessionStorage.setItem("currentUserId", user.uid);
+      sessionStorage.setItem("userRole", userData.isAdmin ? "admin" : "author");
+      sessionStorage.setItem("userName", userData.name);
 
       messageDiv.textContent = "Success! Redirecting...";
       messageDiv.className =

@@ -77,6 +77,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const article = await response.json();
 
+    // redirect unauthorized authors attempting to edit other pages
+    const currentUserId = sessionStorage.getItem("currentUserId");
+    const userRole = sessionStorage.getItem("userRole");
+    if (userRole !== "admin" && article.authorId !== currentUserId) {
+      alert("You only have permission to edit your own articles.");
+      window.location.href = "/pages/admin/manage.html";
+      return;
+    }
+
     // Populate text inputs
     titleInput.value = article.title;
     snippetInput.value = article.snippet;

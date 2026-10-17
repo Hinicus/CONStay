@@ -86,9 +86,10 @@ app.post(
         imageUrl,
         imageCaption,
         imageCredit,
-        authorId,
         authorName,
       } = req.body;
+
+      const authorId = req.user.uid;
 
       if (!title || !content || !authorId) {
         return res
