@@ -532,34 +532,6 @@
         });
       });
     </script>
-    <script>
-      (function () {
-        const toggleBtn = document.getElementById("mobile-menu-toggle");
-        const menu = document.getElementById("mobile-nav-menu");
-        const icon = document.getElementById("mobile-menu-icon");
-        if (toggleBtn && menu && icon) {
-          toggleBtn.addEventListener("click", function () {
-            const isHidden = menu.classList.contains("hidden");
-            if (isHidden) {
-              menu.classList.remove("hidden");
-              icon.textContent = "close";
-              toggleBtn.setAttribute("aria-expanded", "true");
-            } else {
-              menu.classList.add("hidden");
-              icon.textContent = "menu";
-              toggleBtn.setAttribute("aria-expanded", "false");
-            }
-          });
-          menu.querySelectorAll("a").forEach(function (link) {
-            link.addEventListener("click", function () {
-              menu.classList.add("hidden");
-              icon.textContent = "menu";
-              toggleBtn.setAttribute("aria-expanded", "false");
-            });
-          });
-        }
-      })();
-    </script>
     <script src="index.js"></script>
     <script src="components.js"></script>
   </body>

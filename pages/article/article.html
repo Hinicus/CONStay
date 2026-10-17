@@ -151,29 +151,6 @@
     <!-- FOOTER (Matching previous designs) -->
     <div id="footer-placeholder"></div>
 
-    <!-- Vanilla JS for Mobile Hamburger Menu Toggle -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const menuBtn = document.getElementById("mobile-menu-btn");
-        const menuDrawer = document.getElementById("mobile-menu-drawer");
-        const menuIcon = document.getElementById("menu-icon");
-
-        if (menuBtn && menuDrawer) {
-          menuBtn.addEventListener("click", function () {
-            const isExpanded = menuBtn.getAttribute("aria-expanded") === "true";
-            menuBtn.setAttribute("aria-expanded", !isExpanded);
-
-            if (isExpanded) {
-              menuDrawer.classList.add("hidden");
-              menuIcon.textContent = "menu";
-            } else {
-              menuDrawer.classList.remove("hidden");
-              menuIcon.textContent = "close";
-            }
-          });
-        }
-      });
-    </script>
     <script src="article.js"></script>
     <script src="../../components.js"></script>
   </body>
