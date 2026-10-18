@@ -87,6 +87,7 @@ app.post(
         imageCaption,
         imageCredit,
         authorName,
+        status,
       } = req.body;
 
       const authorId = req.user.uid;
@@ -115,6 +116,7 @@ app.post(
         imageCredit: imageCredit || "",
         authorId,
         authorName: authorName || "CON Contributor",
+        status: status === "draft" ? "draft" : "published",
         date: FieldValue.serverTimestamp(),
       };
 
@@ -131,7 +133,7 @@ app.post(
   },
 );
 
-// Public GET route with Pagination
+// Public GET route with Pagination (and Admin 'all' bypass)
 app.get("/api/news", async (req, res) => {
   try {
     const fetchAll = req.query.all === "true";
@@ -139,19 +141,13 @@ app.get("/api/news", async (req, res) => {
     const limitCount = 4;
     const offsetCount = (page - 1) * limitCount;
 
-    let queryRef = db.collection("news").orderBy("date", "desc");
+    const snapshot = await db.collection("news").orderBy("date", "desc").get();
 
-    // Only apply pagination limits if '?all=true' is NOT passed
-    if (!fetchAll) {
-      queryRef = queryRef.offset(offsetCount).limit(limitCount);
-    }
-
-    const snapshot = await queryRef.get();
-    const articles = [];
+    const allArticles = [];
     snapshot.forEach((doc) => {
       const data = doc.data();
 
-      // 1. FIX THE DATE: Convert Firestore Timestamp to readable text
+      // Convert Firestore Timestamp to readable text
       let formattedDate = data.date;
       if (data.date && typeof data.date.toDate === "function") {
         formattedDate = data.date.toDate().toLocaleDateString("en-US", {
@@ -161,16 +157,30 @@ app.get("/api/news", async (req, res) => {
         });
       }
 
-      articles.push({
+      allArticles.push({
         id: doc.id,
         ...data,
-        // 2. Overwrite the broken data with our fixed versions
         date: formattedDate,
-        authorName: data.authorName || "CON Contributor", // Fallback for missing names
+        authorName: data.authorName || "CON Contributor",
+        status: data.status || "published", // Default older articles to 'published'
       });
     });
 
-    res.json(articles);
+    // If requested by the Admin Dashboard (?all=true), return everything (including drafts)
+    if (fetchAll) {
+      return res.json(allArticles);
+    }
+
+    // For the public homepage, filter out drafts first, then slice the 4-article batch
+    const publishedArticles = allArticles.filter(
+      (article) => article.status === "published",
+    );
+    const paginatedArticles = publishedArticles.slice(
+      offsetCount,
+      offsetCount + limitCount,
+    );
+
+    res.json(paginatedArticles);
   } catch (error) {
     console.error("Fetch error:", error);
     res.status(500).json({ error: "Failed to fetch articles." });
@@ -253,6 +263,7 @@ app.put(
         imageCaption,
         imageCredit,
         lastEditedBy,
+        status,
       } = req.body;
 
       if (!title || !content) {
@@ -267,6 +278,7 @@ app.put(
         content,
         imageCaption: imageCaption || "",
         imageCredit: imageCredit || "",
+        status: status === "draft" ? "draft" : "published",
         lastEditedBy: lastEditedBy || "Admin",
         lastUpdatedAt: new Date().toLocaleDateString("en-US", {
           year: "numeric",

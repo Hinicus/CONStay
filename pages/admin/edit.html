@@ -180,10 +180,56 @@
             </div>
           </div>
 
+          <!-- Publication Status Toggle -->
+          <div
+            class="p-6 bg-surface-container-low rounded-xl border border-surface-dim">
+            <label
+              class="block font-title-sm text-title-sm text-primary mb-3 flex items-center gap-2">
+              <span class="material-symbols-outlined text-xl">visibility</span>
+              Publication Status
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <label
+                class="flex items-center gap-3 p-3.5 rounded-xl border border-outline-variant bg-surface-bright cursor-pointer hover:border-secondary transition-colors has-[:checked]:border-secondary has-[:checked]:bg-secondary-fixed/30">
+                <input
+                  type="radio"
+                  name="articleStatus"
+                  value="published"
+                  checked
+                  class="w-4 h-4 text-secondary focus:ring-secondary" />
+                <div>
+                  <span class="block text-sm font-bold text-primary"
+                    >Published</span
+                  >
+                  <span class="block text-xs text-on-surface-variant"
+                    >Live on the public homepage</span
+                  >
+                </div>
+              </label>
+
+              <label
+                class="flex items-center gap-3 p-3.5 rounded-xl border border-outline-variant bg-surface-bright cursor-pointer hover:border-secondary transition-colors has-[:checked]:border-secondary has-[:checked]:bg-secondary-fixed/30">
+                <input
+                  type="radio"
+                  name="articleStatus"
+                  value="draft"
+                  class="w-4 h-4 text-secondary focus:ring-secondary" />
+                <div>
+                  <span class="block text-sm font-bold text-primary"
+                    >Draft</span
+                  >
+                  <span class="block text-xs text-on-surface-variant"
+                    >Hidden from the public homepage</span
+                  >
+                </div>
+              </label>
+            </div>
+          </div>
+
           <button
             type="submit"
             id="submit-btn"
-            class="bg-secondary hover:bg-primary text-white font-bold py-3.5 px-6 rounded-xl transition-colors mt-4 flex items-center justify-center gap-2 shadow-md">
+            class="bg-secondary hover:bg-primary text-white font-bold py-3.5 px-6 rounded-xl transition-colors mt-2 flex items-center justify-center gap-2 shadow-md">
             <span>Save Changes</span>
             <span class="material-symbols-outlined text-sm">save</span>
           </button>

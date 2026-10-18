@@ -1,10 +1,13 @@
-# dependency directories
-news_backend/node_modules/
+# Dependency directories
+node_modules/
 
-# environment variables
-serviceAccountkey.json
+# Environment variables & Firebase private keys
 .env
+.env.*
+serviceAccountKey.json
+serviceAccountkey.json
+*serviceAccount*.json
 
-#System files
+# System files
 .DS_Store
 Thumbs.db

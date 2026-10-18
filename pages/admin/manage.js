@@ -99,8 +99,14 @@ function renderFilteredArticles() {
 
   // Filter by ownership ("all" vs "mine") and search query (title or authorName)
   const filtered = allArticles.filter((article) => {
-    const matchesOwnership =
-      currentArticleFilter === "all" || article.authorId === currentUserId;
+    const status = article.status || "published";
+
+    let matchesTab = true;
+    if (currentArticleFilter === "mine") {
+      matchesTab = article.authorId === currentUserId;
+    } else if (currentArticleFilter === "drafts") {
+      matchesTab = status === "draft";
+    }
 
     const titleMatch = (article.title || "")
       .toLowerCase()
@@ -109,7 +115,7 @@ function renderFilteredArticles() {
       .toLowerCase()
       .includes(currentSearchQuery);
 
-    return matchesOwnership && (titleMatch || authorMatch);
+    return matchesTab && (titleMatch || authorMatch);
   });
 
   // Update counter badge
@@ -126,16 +132,23 @@ function renderFilteredArticles() {
     .map((article) => {
       const isOwner = article.authorId === currentUserId;
       const canEdit = userRole === "admin" || isOwner;
+      const isDraft = article.status === "draft";
+
+      const statusBadge = isDraft
+        ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#ffddb3] text-[#291800] border border-[#e0b885]">Draft</span>`
+        : `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#d7e2ff] text-[#021b3d]">Published</span>`;
 
       return `
         <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 border border-outline-variant rounded-xl bg-surface-bright gap-4 hover:shadow-sm transition-shadow">
           <div>
-            <h3 class="font-title-sm text-title-sm text-primary mb-1">${article.title}</h3>
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <h3 class="font-title-sm text-title-sm text-primary">${article.title}</h3>${statusBadge}
+            </div>
             <p class="text-xs text-on-surface-variant font-bold">Published: ${article.date} • By ${article.authorName}</p>
             ${
               article.lastEditedBy
                 ? `<p class="text-[10px] text-on-surface-variant mt-1 italic">
-                    Last updated by ${article.lastEditedBy} on${article.lastUpdatedAt || "recently"}
+                    Last updated by ${article.lastEditedBy} on ${article.lastUpdatedAt || "recently"}
                   </p>`
                 : ""
             }

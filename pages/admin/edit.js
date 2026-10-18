@@ -105,6 +105,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (article.content) {
       quill.root.innerHTML = article.content;
     }
+
+    // Pre-select the current publication status ("published" or "draft")
+    const articleStatus = article.status || "published";
+    const statusRadio = document.querySelector(
+      `input[name="articleStatus"][value="${articleStatus}"]`,
+    );
+    if (statusRadio) statusRadio.checked = true;
   } catch (error) {
     console.error("Error loading article:", error);
     alert("Failed to load article data.");
@@ -128,6 +135,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     formData.append("imageCredit", imageCreditInput.value);
     formData.append("lastEditedBy", sessionStorage.getItem("userName"));
 
+    // Append the updated status
+    const selectedStatus = document.querySelector(
+      'input[name="articleStatus"]:checked',
+    ).value;
+    formData.append("status", selectedStatus);
     const selectedMode = document.querySelector(
       'input[name="imageMode"]:checked',
     ).value;

@@ -56,6 +56,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // --- Status Toggle Button Text Update ---
+  const statusRadios = document.getElementsByName("articleStatus");
+  const submitBtnText = document.getElementById("submit-btn-text");
+  const submitBtnIcon = document.getElementById("submit-btn-icon");
+
+  statusRadios.forEach((radio) => {
+    radio.addEventListener("change", (e) => {
+      if (e.target.value === "draft") {
+        submitBtnText.textContent = "Save Draft";
+        submitBtnIcon.textContent = "save";
+      } else {
+        submitBtnText.textContent = "Publish Article";
+        submitBtnIcon.textContent = "publish";
+      }
+    });
+  });
+
   const form = document.getElementById("create-news-form");
   const messageDiv = document.getElementById("form-message");
 
@@ -87,6 +104,12 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     formData.append("authorId", sessionStorage.getItem("currentUserId"));
     formData.append("authorName", sessionStorage.getItem("userName"));
+
+    // NEW: Grab and append the article status ("published" or "draft")
+    const selectedStatus = document.querySelector(
+      'input[name="articleStatus"]:checked',
+    ).value;
+    formData.append("status", selectedStatus);
 
     // 4. Append either the file OR the link based on the radio button
     const selectedMode = document.querySelector(
@@ -162,8 +185,9 @@ document.addEventListener("DOMContentLoaded", () => {
         quill.setContents([]); // Clear the Quill editor
 
         setTimeout(() => {
-          window.location.href = "/";
-        }, 2000);
+          window.location.href =
+            selectedStatus === "draft" ? "/pages/admin/manage.html" : "/";
+        }, 1500);
       } else {
         throw new Error(result.error || "Failed to publish");
       }
