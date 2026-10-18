@@ -13,7 +13,9 @@ async function fetchSingleArticle() {
 
   try {
     // 2. Fetch the specific article from Express
-    const response = await fetch(`http://localhost:3000/api/news/${articleId}`);
+    const response = await fetch(
+      `${window.API_BASE_URL}/api/news/${articleId}`,
+    );
     if (!response.ok) throw new Error("Failed to fetch article data");
 
     const article = await response.json();
@@ -96,7 +98,7 @@ async function fetchOtherNews(currentArticleId) {
 
   try {
     // Fetch the first batch of recent news from Express
-    const response = await fetch("http://localhost:3000/api/news?page=1");
+    const response = await fetch(`${window.API_BASE_URL}/api/news?page=1`);
     if (!response.ok) return;
 
     const articles = await response.json();

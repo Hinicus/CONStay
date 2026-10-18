@@ -82,7 +82,7 @@ async function fetchManageArticles() {
   }
 
   try {
-    const response = await fetch("http://localhost:3000/api/news?all=true");
+    const response = await fetch(`${window.API_BASE_URL}/api/news?all=true`);
     allArticles = await response.json();
     renderFilteredArticles();
   } catch (error) {
@@ -195,7 +195,7 @@ window.deleteArticle = async function (id) {
   const token = await auth.currentUser.getIdToken();
 
   try {
-    const response = await fetch(`http://localhost:3000/api/news/${id}`, {
+    const response = await fetch(`${window.API_BASE_URL}/api/news/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

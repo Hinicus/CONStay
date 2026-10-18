@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       // 5. Send the POST request to the backend
-      const response = await fetch("http://localhost:3000/api/news", {
+      const response = await fetch(`${window.API_BASE_URL}/api/news`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

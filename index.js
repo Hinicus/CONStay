@@ -24,7 +24,9 @@ async function fetchNews(page = 1) {
 
   try {
     // 1. Fetch the specific page from Express
-    const response = await fetch(`http://localhost:3000/api/news?page=${page}`);
+    const response = await fetch(
+      `${window.API_BASE_URL}/api/news?page=${page}`,
+    );
     if (!response.ok) throw new Error("Failed to fetch news");
 
     const newsData = await response.json();

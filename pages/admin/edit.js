@@ -72,7 +72,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 3. Fetch existing data and pre-fill the form
   try {
-    const response = await fetch(`http://localhost:3000/api/news/${articleId}`);
+    const response = await fetch(
+      `${window.API_BASE_URL}/api/news/${articleId}`,
+    );
     if (!response.ok) throw new Error("Failed to fetch article details");
 
     const article = await response.json();
@@ -179,7 +181,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       // Use PUT method and target the specific article ID
       const response = await fetch(
-        `http://localhost:3000/api/news/${articleId}`,
+        `${window.API_BASE_URL}/api/news/${articleId}`,
         {
           method: "PUT",
           headers: {

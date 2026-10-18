@@ -1,3 +1,9 @@
+// Automatically switch between local development and live production
+window.API_BASE_URL =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1"
+    ? "http://localhost:3000"
+    : "https://production-backend-url.com"; // IMPORTANT: REPLACE WHEN DEPLOYING
 // get year
 const currentYear = new Date().getFullYear();
 
