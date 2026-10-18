@@ -16,6 +16,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function fetchNews(page = 1) {
   const loadMoreBtn = document.getElementById("load-more-btn");
+  const featuredContainer = document.getElementById("featured-news-container");
+  const listContainer = document.getElementById("news-list-container");
+
+  // 1. Show a centered loading spinner on initial load (Page 1)
+  if (page === 1 && featuredContainer) {
+    featuredContainer.innerHTML = `
+      <div class="bg-surface-container-lowest rounded-lg p-12 shadow-sm flex flex-col items-center justify-center min-h-[360px] gap-4">
+        <div class="w-10 h-10 border-4 border-secondary-fixed border-t-secondary rounded-full animate-spin"></div>
+        <p class="font-label-md text-label-md text-on-surface-variant animate-pulse">
+          Loading latest dispatches...
+        </p>
+      </div>
+    `;
+    if (listContainer) {
+      listContainer.innerHTML = "";
+    }
+  }
 
   // Show a loading spinner on the button if clicking "Load More"
   if (loadMoreBtn && page > 1) {

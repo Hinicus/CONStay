@@ -148,7 +148,7 @@ const headerHTML = `
         <nav class="flex flex-col gap-space-xs">
           <a
             class="text-surface-variant hover:text-surface hover:bg-primary transition-all py-space-sm px-space-md rounded-DEFAULT font-label-md text-label-md flex items-center justify-between"
-            data-path="our-story"
+            data-path="home-dashboard"
             href="/"
             ><span class="">Home</span
             ><span
@@ -321,6 +321,68 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     }
+
+    // Highlight the active navigation link for Desktop & Mobile
+    const currentPath = window.location.pathname.toLowerCase();
+    const isHomePage =
+      currentPath === "/" || currentPath.endsWith("/index.html");
+
+    // Desktop Nav Highlighting
+    const desktopNav = headerContainer.querySelector(
+      "header nav.hidden.lg\\:flex",
+    );
+    if (desktopNav) {
+      const activeClasses = (
+        desktopNav.getAttribute("data-active-classes") || ""
+      )
+        .split(" ")
+        .filter(Boolean);
+
+      desktopNav.querySelectorAll("a[data-path]").forEach((link) => {
+        const linkPath = link.getAttribute("data-path");
+        const linkHref = link.getAttribute("href");
+
+        const isMatch =
+          (isHomePage && linkPath === "home-dashboard") ||
+          (!isHomePage &&
+            ((linkHref &&
+              linkHref !== "#" &&
+              linkHref !== "/" &&
+              currentPath.includes(linkHref.toLowerCase())) ||
+              currentPath.includes(linkPath)));
+
+        if (isMatch) {
+          link.classList.remove("text-surface-variant");
+          link.classList.add(...activeClasses);
+        }
+      });
+    }
+
+    // Mobile Nav Highlighting
+    if (menuDrawer) {
+      menuDrawer.querySelectorAll("a[data-path]").forEach((link) => {
+        const linkPath = link.getAttribute("data-path");
+        const linkHref = link.getAttribute("href");
+
+        const isMatch =
+          (isHomePage && linkPath === "home-dashboard") ||
+          (!isHomePage &&
+            ((linkHref &&
+              linkHref !== "#" &&
+              linkHref !== "/" &&
+              currentPath.includes(linkHref.toLowerCase())) ||
+              currentPath.includes(linkPath)));
+
+        if (isMatch) {
+          link.classList.remove("text-surface-variant");
+          link.classList.add(
+            "bg-primary",
+            "text-tertiary-fixed-dim",
+            "font-bold",
+          );
+        }
+      });
+    }
   }
 
   // 2. Inject Footer
@@ -328,4 +390,14 @@ document.addEventListener("DOMContentLoaded", () => {
   if (footerContainer) {
     footerContainer.innerHTML = footerHTML;
   }
+
+  // SITE BUILDING REMINDER
+  document.querySelectorAll('a[href="#"]').forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      alert(
+        "This section is currently under construction for the next phase. The News & Admin Portal are live for testing!",
+      );
+    });
+  });
 });
