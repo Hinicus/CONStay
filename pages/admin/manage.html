@@ -21,7 +21,9 @@
     <main class="flex-grow flex flex-col items-center py-10 px-4 sm:px-6">
       <div
         class="max-w-4xl w-full bg-surface-container-lowest p-6 sm:p-10 rounded-2xl shadow-sm border border-surface-dim">
-        <div class="flex items-center justify-between mb-8">
+        <!-- Dashboard Header -->
+        <div
+          class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
           <div>
             <span
               class="text-xs font-bold uppercase tracking-widest text-[#438bc4] mb-2 block"
@@ -30,7 +32,6 @@
             <h1 class="text-3xl font-serif font-bold text-primary">
               Manage Articles
             </h1>
-            <!-- User -->
             <p
               class="text-sm font-bold text-on-surface-variant mt-2 flex items-center gap-1.5">
               <span class="material-symbols-outlined text-[16px]"
@@ -50,28 +51,97 @@
             </button>
             <a
               href="/pages/admin/create.html"
-              class="bg-secondary hover:bg-primary text-white text-sm font-bold py-2.5 px-4 rounded-xl transition-colors flex items-center gap-2">
+              class="bg-secondary hover:bg-primary text-white text-sm font-bold py-2.5 px-4 rounded-xl transition-colors flex items-center gap-2 shadow-sm">
               <span class="material-symbols-outlined text-[18px]">add</span> New
             </a>
           </div>
         </div>
 
-        <!-- Admin Approval Panel (Hidden by default) -->
+        <!-- UPGRADED: Admin Author Directory Panel (Hidden for regular authors) -->
         <div
           id="admin-panel"
-          class="hidden mb-8 p-6 bg-surface-container-low rounded-xl border border-surface-dim">
-          <h2
-            class="font-title-sm text-title-sm text-primary mb-4 flex items-center gap-2">
-            <span class="material-symbols-outlined text-xl">group_add</span>
-            Pending Author Approvals
-          </h2>
+          class="hidden mb-10 p-6 bg-surface-container-low rounded-xl border border-surface-dim">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+            <h2
+              class="font-title-sm text-title-sm text-primary flex items-center gap-2">
+              <span class="material-symbols-outlined text-xl">group</span>
+              Author Directory &amp; Approvals
+            </h2>
+
+            <!-- Author Status Tabs -->
+            <div
+              class="inline-flex bg-surface-container-highest p-1 rounded-xl border border-outline-variant/40 self-start sm:self-auto">
+              <button
+                type="button"
+                data-user-tab="pending"
+                class="user-tab-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-primary text-white shadow-sm">
+                Pending (<span id="count-pending">0</span>)
+              </button>
+              <button
+                type="button"
+                data-user-tab="approved"
+                class="user-tab-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-on-surface-variant hover:text-primary">
+                Approved (<span id="count-approved">0</span>)
+              </button>
+              <button
+                type="button"
+                data-user-tab="rejected"
+                class="user-tab-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-on-surface-variant hover:text-primary">
+                Rejected (<span id="count-rejected">0</span>)
+              </button>
+            </div>
+          </div>
+
           <div id="pending-users-list" class="flex flex-col gap-3">
-            <!-- Pending users injected here -->
-            <p class="text-sm text-on-surface-variant font-bold">Loading...</p>
+            <p class="text-sm text-on-surface-variant font-bold">
+              Loading authors...
+            </p>
           </div>
         </div>
 
-        <!-- JavaScript will inject the list of articles here -->
+        <!-- NEW: Article Search & Filter Bar -->
+        <div
+          class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-4 pb-4 border-b border-surface-dim">
+          <!-- Search Input -->
+          <div class="relative flex-1">
+            <span
+              class="material-symbols-outlined text-[18px] text-on-surface-variant absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+              >search</span
+            >
+            <input
+              type="text"
+              id="article-search"
+              placeholder="Search by headline or author..."
+              class="w-full pl-10 pr-4 py-2 text-sm border border-outline-variant rounded-xl bg-surface-bright focus:ring-2 focus:ring-secondary focus:outline-none" />
+          </div>
+
+          <!-- Ownership Filter Pills -->
+          <div class="flex items-center justify-between sm:justify-end gap-2">
+            <div
+              class="inline-flex bg-surface-container-low p-1 rounded-xl border border-outline-variant/50">
+              <button
+                type="button"
+                data-article-filter="all"
+                class="article-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-secondary text-white shadow-sm">
+                All Articles
+              </button>
+              <button
+                type="button"
+                data-article-filter="mine"
+                class="article-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-on-surface-variant hover:text-primary">
+                My Articles
+              </button>
+            </div>
+            <span
+              id="articles-count"
+              class="text-xs font-bold text-on-surface-variant whitespace-nowrap ml-1">
+              0 items
+            </span>
+          </div>
+        </div>
+
+        <!-- Articles List -->
         <div id="articles-list" class="flex flex-col gap-4">
           <p class="text-on-surface-variant text-sm font-bold">
             Loading articles...
