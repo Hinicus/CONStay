@@ -74,7 +74,9 @@ async function fetchSingleArticle() {
     // 4. Format the content
     const contentContainer = document.getElementById("article-content");
     if (article.content) {
-      contentContainer.innerHTML = article.content;
+      contentContainer.innerHTML = DOMPurify.sanitize(article.content, {
+        USE_PROFILES: { html: true },
+      });
     } else {
       contentContainer.innerHTML = "<p>No content available.</p>";
     }
