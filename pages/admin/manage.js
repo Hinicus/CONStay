@@ -262,34 +262,34 @@ function renderAuthorsByTab() {
 
       if (currentUserTab === "pending") {
         actionButtons = `
-          <button onclick="approveUser('${user.uid}')" class="px-4 py-2 bg-[#438bc4] hover:bg-[#3472a5] text-white rounded-lg text-xs font-bold transition-colors shadow-sm">
+          <button onclick="approveUser('${user.uid}')" class="flex-1 sm:flex-initial px-4 py-2 bg-[#438bc4] hover:bg-[#3472a5] text-white rounded-lg text-xs font-bold transition-colors shadow-sm text-center">
             Approve
           </button>
-          <button onclick="rejectUser('${user.uid}')" class="px-4 py-2 bg-surface-container-high hover:bg-[#ba1a1a] hover:text-white text-on-surface-variant rounded-lg text-xs font-bold transition-colors border border-outline-variant hover:border-[#ba1a1a]">
+          <button onclick="rejectUser('${user.uid}')" class="flex-1 sm:flex-initial px-4 py-2 bg-surface-container-high hover:bg-[#ba1a1a] hover:text-white text-on-surface-variant rounded-lg text-xs font-bold transition-colors border border-outline-variant hover:border-[#ba1a1a] text-center">
             Reject
           </button>
         `;
       } else if (currentUserTab === "approved") {
         actionButtons = `
-          <button onclick="rejectUser('${user.uid}')" class="px-4 py-2 bg-surface-container-high hover:bg-[#ba1a1a] hover:text-white text-on-surface-variant rounded-lg text-xs font-bold transition-colors border border-outline-variant hover:border-[#ba1a1a]">
+          <button onclick="rejectUser('${user.uid}')" class="w-full sm:w-auto px-4 py-2 bg-surface-container-high hover:bg-[#ba1a1a] hover:text-white text-on-surface-variant rounded-lg text-xs font-bold transition-colors border border-outline-variant hover:border-[#ba1a1a] text-center">
             Revoke Access
           </button>
         `;
       } else if (currentUserTab === "rejected") {
         actionButtons = `
-          <button onclick="approveUser('${user.uid}')" class="px-4 py-2 bg-[#438bc4] hover:bg-[#3472a5] text-white rounded-lg text-xs font-bold transition-colors shadow-sm">
+          <button onclick="approveUser('${user.uid}')" class="w-full sm:w-auto px-4 py-2 bg-[#438bc4] hover:bg-[#3472a5] text-white rounded-lg text-xs font-bold transition-colors shadow-sm text-center">
             Restore &amp; Approve
           </button>
         `;
       }
 
       return `
-        <div class="flex items-center justify-between p-3 bg-surface-bright rounded-lg border border-outline-variant">
-          <div>
-            <p class="text-sm font-bold text-primary">${user.name}</p>
-            <p class="text-xs text-on-surface-variant">${user.email}</p>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-surface-bright rounded-lg border border-outline-variant">
+          <div class="min-w-0">
+            <p class="text-sm font-bold text-primary truncate">${user.name}</p>
+            <p class="text-xs text-on-surface-variant break-all">${user.email}</p>
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 w-full sm:w-auto shrink-0">
             ${actionButtons}
           </div>
         </div>

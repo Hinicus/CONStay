@@ -41,7 +41,7 @@ const adminRibbonHTML = isLoggedIn
       </div>
 
       <!-- Right: Quick Action Links -->
-      <div class="flex items-center gap-2 sm:gap-3 ml-auto">
+      <div class="flex flex-wrap items-center gap-2 sm:gap-3 ml-auto">
         ${
           isArticlePage
             ? `<a id="ribbon-edit-btn" href="/pages/admin/edit.html?id=${currentArticleId}" 
