@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title> </title>
+    <title>Loading Article - CONStay</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <!-- Google Fonts: Newsreader (Serif) & Inter / Plus Jakarta Sans (Sans-serif) -->
@@ -57,7 +57,7 @@
 
         <!-- Article Meta Pill Bar -->
         <div
-          class="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 bg-white/10 ring-1 ring-white/15 rounded-full px-5 py-2.5 text-xs text-slate-200 backdrop-blur-md">
+          class="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-5 bg-white/10 ring-1 ring-white/15 rounded-full px-5 py-2.5 text-xs text-slate-200 backdrop-blur-md">
           <div class="flex items-center gap-2">
             <span class="material-symbols-outlined text-clear-skies text-sm"
               >person</span
@@ -69,7 +69,14 @@
             <span class="material-symbols-outlined text-clear-skies text-sm"
               >calendar_today</span
             >
-            <span id="article-date" class="">...</span>
+            <span id="article-date">...</span>
+          </div>
+          <span class="hidden sm:inline text-white/30">•</span>
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-clear-skies text-sm"
+              >schedule</span
+            >
+            <span id="article-read-time">1 min read</span>
           </div>
 
           <!-- Edit History Container (Hidden by default) -->
@@ -82,6 +89,18 @@
               id="article-edit-history"
               class="text-white/80 italic text-[11px]"></span>
           </div>
+
+          <span class="hidden sm:inline text-white/30">•</span>
+          <!-- Share / Copy Link Button -->
+          <button
+            type="button"
+            id="share-article-btn"
+            class="inline-flex items-center gap-1 text-clear-skies hover:text-white font-bold transition-colors focus:outline-none">
+            <span id="share-icon" class="material-symbols-outlined text-sm"
+              >share</span
+            >
+            <span id="share-text">Share</span>
+          </button>
         </div>
       </div>
     </section>

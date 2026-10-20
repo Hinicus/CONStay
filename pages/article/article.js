@@ -51,7 +51,9 @@ async function fetchSingleArticle() {
     const imgEl = document.getElementById("article-image");
     if (article.imageUrl) {
       // If an image exists, set the source and alt text
-      imgEl.src = article.imageUrl;
+      imgEl.src = window.optimizeImageUrl
+        ? window.optimizeImageUrl(article.imageUrl, 1400)
+        : article.imageUrl;
       imgEl.alt = article.title;
     } else {
       // If there is no image, find the parent <figure> tag and hide it
@@ -81,6 +83,45 @@ async function fetchSingleArticle() {
       });
     } else {
       contentContainer.innerHTML = "<p>No content available.</p>";
+    }
+
+    // Calculate and display estimated reading time (200 words per minute)
+    const plainText = contentContainer.textContent || "";
+    const wordCount = plainText.trim().split(/\s+/).filter(Boolean).length;
+    const readTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
+    const readTimeEl = document.getElementById("article-read-time");
+    if (readTimeEl) {
+      readTimeEl.textContent = `${readTimeMinutes} min read`;
+    }
+
+    //Share / Copy Link button
+    const shareBtn = document.getElementById("share-article-btn");
+    if (shareBtn) {
+      shareBtn.addEventListener("click", async () => {
+        const shareData = {
+          title: `${article.title} - CONStay`,
+          text: article.snippet || article.title,
+          url: window.location.href,
+        };
+
+        try {
+          if (navigator.share) {
+            await navigator.share(shareData);
+          } else {
+            await navigator.clipboard.writeText(window.location.href);
+            const shareText = document.getElementById("share-text");
+            const shareIcon = document.getElementById("share-icon");
+            shareText.textContent = "Link Copied!";
+            shareIcon.textContent = "check";
+            setTimeout(() => {
+              shareText.textContent = "Share";
+              shareIcon.textContent = "share";
+            }, 2000);
+          }
+        } catch (err) {
+          console.log("Share canceled or failed:", err);
+        }
+      });
     }
 
     // 5. Load other news
@@ -119,7 +160,7 @@ async function fetchOtherNews(currentArticleId) {
           ${
             item.imageUrl
               ? `<div class="aspect-[16/10] w-full overflow-hidden bg-slate-900">
-                   <img src="${item.imageUrl}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                   <img loading="lazy" src="${window.optimizeImageUrl ? window.optimizeImageUrl(item.imageUrl, 600) : item.imageUrl}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                  </div>`
               : ""
           }
