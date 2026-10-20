@@ -4,6 +4,25 @@ window.API_BASE_URL =
   window.location.hostname === "127.0.0.1"
     ? "http://localhost:3000"
     : "https://constay.onrender.com"; // IMPORTANT: REPLACE WHEN DEPLOYING
+
+//Global Helper: Automatically compress and resize Cloudinary images
+window.optimizeImageUrl = function (url, width = 900) {
+  if (!url || typeof url !== "string") return "";
+  if (url.includes("res.cloudinary.com") && url.includes("/upload/")) {
+    return url.replace("/upload/", `/upload/f_auto,q_auto,w_${width}/`);
+  }
+  return url;
+};
+
+//Automatically inject the CONStay Favicon into every page's <head>
+if (!document.querySelector('link[rel="icon"]')) {
+  const favicon = document.createElement("link");
+  favicon.rel = "icon";
+  favicon.href =
+    "https://lh3.googleusercontent.com/aida/AEtjO1WQyPvckZWOltbQ5o6cmHeIY-O_54yvsUcj-hXB0Rnu6iSNaTGo10gZOoMiOaD4HGcXkSFJUMt4Q1AbdVmzdJa48aKp67JCxmc4r40uVNOccMqiIXbwXsJphx2iodD_1iy8byRqwXMr-595jePSxRFeKEYfJdQUO2oigHz9qFRZ17JQQ7EPzCLBAQxTajEkgEkpSEnpzIntl_xMPl05EEx8_t8otL9mdoaWEom6Bwf_jeSqLszUR_aeGZY";
+  document.head.appendChild(favicon);
+}
+
 // get year
 const currentYear = new Date().getFullYear();
 

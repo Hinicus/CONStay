@@ -94,8 +94,8 @@ function renderFeaturedNews(article, replace = true) {
       ${
         article.imageUrl
           ? `<div class="relative w-full aspect-[16/10] overflow-hidden bg-surface-container">
-               <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                    src="${article.imageUrl}" alt="${article.title}" />
+               <img loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    src="${window.optimizeImageUrl ? window.optimizeImageUrl(article.imageUrl, 900) : article.imageUrl}" alt="${article.title}" />
              </div>`
           : ""
       }
