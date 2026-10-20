@@ -16,6 +16,24 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   });
 
+  // --- Track Unsaved Changes ---
+  let isUnsaved = false;
+  quill.on("text-change", () => {
+    isUnsaved = true;
+  });
+
+  const form = document.getElementById("create-news-form");
+  form.addEventListener("input", () => {
+    isUnsaved = true;
+  });
+
+  window.addEventListener("beforeunload", (e) => {
+    if (isUnsaved) {
+      e.preventDefault();
+      e.returnValue = "";
+    }
+  });
+
   // --- Snippet Character Counter ---
   const snippetInput = document.getElementById("snippet");
   const snippetCounter = document.getElementById("snippet-counter");
@@ -73,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  const form = document.getElementById("create-news-form");
   const messageDiv = document.getElementById("form-message");
 
   form.addEventListener("submit", async (e) => {
@@ -141,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
     messageDiv.className =
       "mt-4 p-4 rounded-lg text-sm font-bold bg-[#f5ede0] text-[#12284b] block";
 
-    //Check to see if Firebase knows who is logged in
+    // Check to see if Firebase knows who is logged in
     if (!auth.currentUser) {
       messageDiv.textContent =
         "Authentication error: Please refresh the page and try again.";
@@ -150,18 +167,24 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Lock the submit button to prevent double-clicking
+    const submitBtn = document.getElementById("submit-btn");
+    submitBtn.disabled = true;
+    submitBtn.classList.add("opacity-60", "cursor-not-allowed");
+
+    messageDiv.textContent = "Uploading article... please wait.";
+    messageDiv.className =
+      "mt-4 p-4 rounded-lg text-sm font-bold bg-[#f5ede0] text-[#12284b] block";
+
     // Get token
     const token = await auth.currentUser.getIdToken();
 
     try {
-      // 5. Send the POST request to the backend
       const response = await fetch(`${window.API_BASE_URL}/api/news`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        // CRITICAL: Do NOT set 'Content-Type': 'application/json' when sending FormData.
-        // The browser will automatically set the correct headers for the file upload.
         body: formData,
       });
 
@@ -176,13 +199,16 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (response.ok) {
+        isUnsaved = false; // Disarm the "Leave site?" warning before redirecting
         messageDiv.textContent =
-          "Article published successfully! Redirecting...";
+          selectedStatus === "draft"
+            ? "Draft saved successfully! Redirecting to dashboard..."
+            : "Article published successfully! Redirecting...";
         messageDiv.className =
           "mt-4 p-4 rounded-lg text-sm font-bold bg-[#d7e2ff] text-[#021b3d] block";
 
         form.reset();
-        quill.setContents([]); // Clear the Quill editor
+        quill.setContents([]);
 
         setTimeout(() => {
           window.location.href =
@@ -193,6 +219,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } catch (error) {
       console.error("Submit error:", error);
+      // Re-enable the submit button so the author can try again
+      submitBtn.disabled = false;
+      submitBtn.classList.remove("opacity-60", "cursor-not-allowed");
+
       messageDiv.textContent = `Error: ${error.message}`;
       messageDiv.className =
         "mt-4 p-4 rounded-lg text-sm font-bold bg-[#ffdad6] text-[#93000a] block";

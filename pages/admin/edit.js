@@ -70,6 +70,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
+  let isUnsaved = false;
+
   // 3. Fetch existing data and pre-fill the form
   try {
     const response = await fetch(
@@ -168,18 +170,22 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    messageDiv.textContent = "Saving changes... please wait.";
-    messageDiv.className =
-      "mt-4 p-4 rounded-lg text-sm font-bold bg-[#f5ede0] text-[#12284b] block";
-
     if (!auth.currentUser) {
       alert("Authentication error: Please refresh the page.");
       return;
     }
+
+    const submitBtn = document.getElementById("submit-btn");
+    submitBtn.disabled = true;
+    submitBtn.classList.add("opacity-60", "cursor-not-allowed");
+
+    messageDiv.textContent = "Saving changes... please wait.";
+    messageDiv.className =
+      "mt-4 p-4 rounded-lg text-sm font-bold bg-[#f5ede0] text-[#12284b] block";
+
     const token = await auth.currentUser.getIdToken();
 
     try {
-      // Use PUT method and target the specific article ID
       const response = await fetch(
         `${window.API_BASE_URL}/api/news/${articleId}`,
         {
@@ -200,6 +206,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       if (response.ok) {
+        isUnsaved = false; // Disarm the "Leave site?" warning
         messageDiv.textContent = "Article updated successfully! Redirecting...";
         messageDiv.className =
           "mt-4 p-4 rounded-lg text-sm font-bold bg-[#d7e2ff] text-[#021b3d] block";
@@ -212,6 +219,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     } catch (error) {
       console.error("Submit error:", error);
+      submitBtn.disabled = false;
+      submitBtn.classList.remove("opacity-60", "cursor-not-allowed");
+
       messageDiv.textContent = `Error: ${error.message}`;
       messageDiv.className =
         "mt-4 p-4 rounded-lg text-sm font-bold bg-[#ffdad6] text-[#93000a] block";
