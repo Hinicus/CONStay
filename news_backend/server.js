@@ -201,7 +201,7 @@ app.get("/api/news/:id", async (req, res) => {
     }
 
     const data = doc.data();
-    const authorName = await getAuthorName(data.authorId);
+    const authorName = data.authorName || (await getAuthorName(data.authorId));
 
     const formattedDate = data.date
       ? data.date.toDate().toLocaleDateString("en-US", {
