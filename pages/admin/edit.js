@@ -116,6 +116,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       `input[name="articleStatus"][value="${articleStatus}"]`,
     );
     if (statusRadio) statusRadio.checked = true;
+
+    // Attach unsaved-change listeners AFTER pre-filling is complete
+    quill.on("text-change", () => {
+      isUnsaved = true;
+    });
+    form.addEventListener("input", () => {
+      isUnsaved = true;
+    });
+    window.addEventListener("beforeunload", (e) => {
+      if (isUnsaved) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    });
   } catch (error) {
     console.error("Error loading article:", error);
     alert("Failed to load article data.");
