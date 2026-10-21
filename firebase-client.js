@@ -7,7 +7,7 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.1/firebase
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyALyPvVWLz257qpTjo5RdogAX3UnGlvN-M",
-  authDomain: "constay-8841b.firebaseapp.com",
+  authDomain: "tatakcon.firebaseapp.com",
   projectId: "constay-8841b",
   storageBucket: "constay-8841b.firebasestorage.app",
   messagingSenderId: "201864426923",
