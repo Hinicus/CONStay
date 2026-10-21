@@ -33,7 +33,7 @@ async function fetchSingleArticle() {
     }
 
     // 3. Update the page title and HTML elements
-    document.title = `${article.title} - CONStay`;
+    document.title = `${article.title} - TatakCON`;
     document.getElementById("article-title").textContent = article.title;
     document.getElementById("article-date").textContent = article.date;
     document.getElementById("article-author").textContent = article.authorName;
@@ -99,7 +99,7 @@ async function fetchSingleArticle() {
     if (shareBtn) {
       shareBtn.addEventListener("click", async () => {
         const shareData = {
-          title: `${article.title} - CONStay`,
+          title: `${article.title} - TatakCON`,
           text: article.snippet || article.title,
           url: window.location.href,
         };

@@ -11,3 +11,6 @@ serviceAccountkey.json
 # System files
 .DS_Store
 Thumbs.db
+
+# Editor directory
+.vscode/

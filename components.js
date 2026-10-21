@@ -3,7 +3,7 @@ window.API_BASE_URL =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1"
     ? "http://localhost:3000"
-    : "https://constay.onrender.com"; // IMPORTANT: REPLACE WHEN DEPLOYING
+    : "https://constay.onrender.com";
 
 //Global Helper: Automatically compress and resize Cloudinary images
 window.optimizeImageUrl = function (url, width = 900) {
@@ -14,7 +14,7 @@ window.optimizeImageUrl = function (url, width = 900) {
   return url;
 };
 
-//Automatically inject the CONStay Favicon into every page's <head>
+//Automatically inject the TatakCON Favicon into every page's <head>
 if (!document.querySelector('link[rel="icon"]')) {
   const favicon = document.createElement("link");
   favicon.rel = "icon";
@@ -95,7 +95,7 @@ const headerHTML = `
         class="h-20 max-w-7xl mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin flex items-center justify-between gap-space-md">
         <a href="/" class="flex items-center gap-space-sm flex-shrink-0">
           <img
-            alt="CONStay Logo"
+            alt="TatakCON Logo"
             class="h-8 w-auto object-contain"
             src="https://lh3.googleusercontent.com/aida/AEtjO1WQyPvckZWOltbQ5o6cmHeIY-O_54yvsUcj-hXB0Rnu6iSNaTGo10gZOoMiOaD4HGcXkSFJUMt4Q1AbdVmzdJa48aKp67JCxmc4r40uVNOccMqiIXbwXsJphx2iodD_1iy8byRqwXMr-595jePSxRFeKEYfJdQUO2oigHz9qFRZ17JQQ7EPzCLBAQxTajEkgEkpSEnpzIntl_xMPl05EEx8_t8otL9mdoaWEom6Bwf_jeSqLszUR_aeGZY" />
         </a>
@@ -297,7 +297,7 @@ const footerHTML = `
         </div>
       </div>
       <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-        <p>© ${currentYear} College of Nursing. CONStay: Beyond the Walls. All rights reserved.</p>
+        <p>© ${currentYear} College of Nursing. TatakCON: Beyond the Walls. All rights reserved.</p>
         <div class="flex items-center space-x-4">
           <a class="hover:text-white transition-colors flex items-center gap-1" href="${
             isLoggedIn ? "/pages/admin/manage.html" : "/pages/admin/login.html"
