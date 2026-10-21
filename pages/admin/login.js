@@ -1,11 +1,15 @@
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-//NEW IMPORTS
 import {
   doc,
   getDoc,
+  setDoc,
+  serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 import { auth, db } from "/firebase-client.js";
 
@@ -30,6 +34,79 @@ document.addEventListener("DOMContentLoaded", () => {
   const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
+
+  // --- Google OAuth Login / Registration ---
+  const googleAuthBtn = document.getElementById("google-auth-btn");
+  if (googleAuthBtn) {
+    googleAuthBtn.addEventListener("click", async () => {
+      const provider = new GoogleAuthProvider();
+      messageDiv.textContent = "Connecting to Google...";
+      messageDiv.className =
+        "mt-2 p-3 rounded-lg text-sm font-bold bg-[#f5ede0] text-[#12284b] block";
+
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        // Case 1: Brand new user signing in with Google for the first time
+        if (!userSnap.exists()) {
+          await setDoc(userRef, {
+            uid: user.uid,
+            name: user.displayName || user.email.split("@")[0],
+            email: user.email,
+            isAdmin: false,
+            approvalStatus: "pending",
+            dateCreated: serverTimestamp(),
+          });
+
+          await signOut(auth);
+          messageDiv.textContent =
+            "Application received via Google! An admin must approve your account before you can log in.";
+          messageDiv.className =
+            "mt-2 p-3 rounded-lg text-sm font-bold bg-[#d7e2ff] text-[#021b3d] block";
+          return;
+        }
+
+        // Case 2: Existing user in Firestore -> check approvalStatus
+        const userData = userSnap.data();
+        if (userData.approvalStatus !== "approved") {
+          await signOut(auth);
+          messageDiv.textContent = `Access denied. Your account status is: ${userData.approvalStatus}.`;
+          messageDiv.className =
+            "mt-2 p-3 rounded-lg text-sm font-bold bg-[#ffdad6] text-[#93000a] block";
+          return;
+        }
+
+        // Case 3: Approved Author or Admin -> Save session and redirect
+        sessionStorage.setItem("currentUserId", user.uid);
+        sessionStorage.setItem(
+          "userRole",
+          userData.isAdmin ? "admin" : "author",
+        );
+        sessionStorage.setItem("userName", userData.name);
+
+        messageDiv.textContent = "Success! Redirecting...";
+        messageDiv.className =
+          "mt-2 p-3 rounded-lg text-sm font-bold bg-[#d7e2ff] text-[#021b3d] block";
+
+        setTimeout(() => {
+          window.location.href = "/pages/admin/manage.html";
+        }, 1000);
+      } catch (error) {
+        console.error("Google Auth Error:", error);
+        if (error.code === "auth/popup-closed-by-user") {
+          messageDiv.className = "hidden";
+          return;
+        }
+        messageDiv.textContent = "Google sign-in failed. Please try again.";
+        messageDiv.className =
+          "mt-2 p-3 rounded-lg text-sm font-bold bg-[#ffdad6] text-[#93000a] block";
+      }
+    });
+  }
 
   // Forgot password
   const forgotPasswordBtn = document.getElementById("forgot-password-btn");

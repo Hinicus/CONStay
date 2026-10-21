@@ -1,9 +1,12 @@
 import {
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
   signOut,
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import {
   doc,
+  getDoc,
   setDoc,
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
@@ -85,4 +88,75 @@ document.addEventListener("DOMContentLoaded", () => {
         "mt-2 p-3 rounded-lg text-sm font-bold bg-[#ffdad6] text-[#93000a] block";
     }
   });
+
+  // --- Google OAuth Registration / Login ---
+  const googleAuthBtn = document.getElementById("google-auth-btn");
+  if (googleAuthBtn) {
+    googleAuthBtn.addEventListener("click", async () => {
+      const provider = new GoogleAuthProvider();
+      messageDiv.textContent = "Connecting to Google...";
+      messageDiv.className =
+        "mt-2 p-3 rounded-lg text-sm font-bold bg-[#f5ede0] text-[#12284b] block";
+
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+          // New applicant: Create pending profile using their Google name & email
+          await setDoc(userRef, {
+            uid: user.uid,
+            name: user.displayName || user.email.split("@")[0],
+            email: user.email,
+            isAdmin: false,
+            approvalStatus: "pending",
+            dateCreated: serverTimestamp(),
+          });
+
+          await signOut(auth);
+          messageDiv.textContent =
+            "Application received! An admin must approve your account before you can log in.";
+          messageDiv.className =
+            "mt-2 p-3 rounded-lg text-sm font-bold bg-[#d7e2ff] text-[#021b3d] block";
+          return;
+        }
+
+        // Existing user: Check if they are already approved
+        const userData = userSnap.data();
+        if (userData.approvalStatus === "approved") {
+          sessionStorage.setItem("currentUserId", user.uid);
+          sessionStorage.setItem(
+            "userRole",
+            userData.isAdmin ? "admin" : "author",
+          );
+          sessionStorage.setItem("userName", userData.name);
+
+          messageDiv.textContent = "Account already approved! Redirecting...";
+          messageDiv.className =
+            "mt-2 p-3 rounded-lg text-sm font-bold bg-[#d7e2ff] text-[#021b3d] block";
+
+          setTimeout(() => {
+            window.location.href = "/pages/admin/manage.html";
+          }, 1000);
+        } else {
+          await signOut(auth);
+          messageDiv.textContent = `An application for this Google account already exists (Status: ${userData.approvalStatus}).`;
+          messageDiv.className =
+            "mt-2 p-3 rounded-lg text-sm font-bold bg-[#f5ede0] text-[#12284b] block";
+        }
+      } catch (error) {
+        console.error("Google Signup Error:", error);
+        if (error.code === "auth/popup-closed-by-user") {
+          messageDiv.className = "hidden";
+          return;
+        }
+        messageDiv.textContent = "Failed to sign up with Google.";
+        messageDiv.className =
+          "mt-2 p-3 rounded-lg text-sm font-bold bg-[#ffdad6] text-[#93000a] block";
+      }
+    });
+  }
 });
