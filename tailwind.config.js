@@ -1,4 +1,11 @@
-tailwind.config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./index.html",
+    "./index.js",
+    "./components.js",
+    "./pages/**/*.{html,js}",
+  ],
   darkMode: "class",
   theme: {
     extend: {
@@ -147,4 +154,5 @@ tailwind.config = {
       },
     },
   },
+  plugins: [require("@tailwindcss/typography")],
 };
