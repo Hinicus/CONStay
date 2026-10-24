@@ -14,13 +14,17 @@ window.optimizeImageUrl = function (url, width = 900) {
   return url;
 };
 
-//Automatically inject the TatakCON Favicon into every page's <head>
+// Automatically inject the TatakCON Favicons into any page's <head> if not already present
 if (!document.querySelector('link[rel="icon"]')) {
-  const favicon = document.createElement("link");
-  favicon.rel = "icon";
-  favicon.href =
-    "https://lh3.googleusercontent.com/aida/AEtjO1WQyPvckZWOltbQ5o6cmHeIY-O_54yvsUcj-hXB0Rnu6iSNaTGo10gZOoMiOaD4HGcXkSFJUMt4Q1AbdVmzdJa48aKp67JCxmc4r40uVNOccMqiIXbwXsJphx2iodD_1iy8byRqwXMr-595jePSxRFeKEYfJdQUO2oigHz9qFRZ17JQQ7EPzCLBAQxTajEkgEkpSEnpzIntl_xMPl05EEx8_t8otL9mdoaWEom6Bwf_jeSqLszUR_aeGZY";
-  document.head.appendChild(favicon);
+  document.head.insertAdjacentHTML(
+    "beforeend",
+    `
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+  `,
+  );
 }
 
 // get year
