@@ -1659,6 +1659,10 @@ main > :last-child {
   height: 8rem;
 }
 
+.h-36 {
+  height: 9rem;
+}
+
 .h-4 {
   height: 1rem;
 }
@@ -1982,6 +1986,10 @@ main > :last-child {
 
 .break-all {
   word-break: break-all;
+}
+
+.rounded {
+  border-radius: 1rem;
 }
 
 .rounded-2xl {

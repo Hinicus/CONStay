@@ -100,8 +100,8 @@ const headerHTML = `
         <a href="/" class="flex items-center gap-space-sm flex-shrink-0">
           <img
             alt="TatakCON Logo"
-            class="h-8 w-auto object-contain"
-            src="https://lh3.googleusercontent.com/aida/AEtjO1WQyPvckZWOltbQ5o6cmHeIY-O_54yvsUcj-hXB0Rnu6iSNaTGo10gZOoMiOaD4HGcXkSFJUMt4Q1AbdVmzdJa48aKp67JCxmc4r40uVNOccMqiIXbwXsJphx2iodD_1iy8byRqwXMr-595jePSxRFeKEYfJdQUO2oigHz9qFRZ17JQQ7EPzCLBAQxTajEkgEkpSEnpzIntl_xMPl05EEx8_t8otL9mdoaWEom6Bwf_jeSqLszUR_aeGZY" />
+            class="h-20 rounded w-auto object-contain"
+            src="/images/logo/tatakcon_icon_transparent.png" />
         </a>
         <nav
           class="hidden lg:flex items-center gap-space-lg h-full"
